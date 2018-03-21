@@ -79,16 +79,16 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="description" content="——《汇编语言第三版》    王爽   [toc] 一. 问题提出 存储在内存中的都是二进制数，如何区分指令，数据和栈空间？   二. 基础知识###1. CS 和 IP     ####1.1 定义CS是代码段寄存器，IP是指令指针寄存器。   ####1.2 用法如果需要到20003H处寻找指令，即CS：IP = 2000：0003。可以  jmp 2000:3,  此句执行后，CS = 2">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2018/03/21/hello-world/index.html">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2018/03/21/1.1_汇编语言（内存操作思考）/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
-<meta property="og:updated_time" content="2018-03-21T07:25:01.910Z">
+<meta property="og:description" content="——《汇编语言第三版》    王爽   [toc] 一. 问题提出 存储在内存中的都是二进制数，如何区分指令，数据和栈空间？   二. 基础知识###1. CS 和 IP     ####1.1 定义CS是代码段寄存器，IP是指令指针寄存器。   ####1.2 用法如果需要到20003H处寻找指令，即CS：IP = 2000：0003。可以  jmp 2000:3,  此句执行后，CS = 2">
+<meta property="og:updated_time" content="2018-03-15T07:52:12.117Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="——《汇编语言第三版》    王爽   [toc] 一. 问题提出 存储在内存中的都是二进制数，如何区分指令，数据和栈空间？   二. 基础知识###1. CS 和 IP     ####1.1 定义CS是代码段寄存器，IP是指令指针寄存器。   ####1.2 用法如果需要到20003H处寻找指令，即CS：IP = 2000：0003。可以  jmp 2000:3,  此句执行后，CS = 2">
 
 
 
@@ -118,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/21/hello-world/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/21/1.1_汇编语言（内存操作思考）/"/>
 
 
 
 
 
-  <title>Hello World | Hexo</title>
+  <title> | Hexo</title>
   
 
 
@@ -231,7 +231,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/21/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/21/1.1_汇编语言（内存操作思考）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -248,7 +248,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hello World</h1>
+          <h1 class="post-title" itemprop="name headline"></h1>
         
 
         <div class="post-meta">
@@ -260,7 +260,7 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-21T15:25:01+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-21T16:32:16+08:00">
                 2018-03-21
               </time>
             
@@ -298,15 +298,75 @@
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <blockquote>
+<p>——《汇编语言第三版》    王爽</p>
+</blockquote>
+<hr>
+<p>[toc]</p>
+<h2 id="一-问题提出"><a href="#一-问题提出" class="headerlink" title="一. 问题提出"></a>一. 问题提出</h2><ol>
+<li>存储在内存中的都是二进制数，如何区分指令，数据和栈空间？</li>
+</ol>
+<hr>
+<h2 id="二-基础知识"><a href="#二-基础知识" class="headerlink" title="二. 基础知识"></a>二. 基础知识</h2><p>###1. CS 和 IP    </p>
+<p>####1.1 定义<br>CS是代码段寄存器，IP是指令指针寄存器。  </p>
+<p>####1.2 用法<br>如果需要到20003H处寻找指令，即CS：IP = 2000：0003。<br>可以</p>
+<blockquote>
+<p>jmp 2000:3,</p>
+</blockquote>
+<p>此句执行后，CS = 2000H，IP=0003H，CPU将从20003H处读取指令。<br><strong>物理地址：20003H = 2000H（段地址） × 16 + 0003H（偏移地址）。</strong>（此处之所以×16是因为在8086CPU合成地址的规定，并不具备普遍意义。）  </p>
+<p>只要符合“段地址×规定倍率 + 偏移地址”格式得到的最终物理地址均有效，<strong>允许出现段地址与偏移地址不相同但是最终物理地址相同的情况</strong>。</p>
+<p>####1.3 注意事项</p>
+<ul>
+<li><p>8086CPU的工作过程可以描述如下：</p>
+<blockquote>
+<ol>
+<li>从CS：IP指向的内存单元读取指令，读取的指令进入指令缓冲区；</li>
+<li>IP=IP+所读取的指令的长度，从而指向下一条指令；</li>
+<li>执行指令。转到步骤1,重复这个过程。</li>
+</ol>
+</blockquote>
+</li>
+<li><p>在8086CPU中，无法直接对CS及IP寄存器进行操作，而通过“jmp 段地址：偏移地址”的指令进行对CS和IP寄存器的修改。<br>###2. DS 和 [Adress]<br>####2.1 定义</p>
+<blockquote>
+<p>CPU要读写一个内存单元的时候，必须先给出这个内存单元的地址，在8086中，内存地址有段地址和偏移地址组成。</p>
+</blockquote>
+</li>
+</ul>
+<p>上段所说的指向数据内存的段地址寄存器为<strong>DS</strong>。</p>
+<p>####2.2 用法<br>假如我们需要访问10000H单元的内容，可以用如下的程序段进行：</p>
+<blockquote>
+<p>mov bx,1000H<br>mov ds,bx<br>mov al,[0]  </p>
+</blockquote>
+<p>上述的3条指令将10000H（1000：0）中的数据读到al。</p>
+<p>####2.3 注意事项<br>完成上述指令目标时，为什么不能用下面的指令实现？</p>
+<blockquote>
+<p>mov ds,1000H</p>
+</blockquote>
+<p>即思考为什么不能将数值直接送入DS寄存器？<br>关于这一点，这是因为8086的CPU硬件设计部分的原因，感兴趣可以自己进行寻找答案。</p>
+<p>###3. SS 和 SP</p>
+<p>####3.1 定义<br>8086CPU用SS和SP指示栈顶的位置，SS为段地址，SP为偏移地址。常与push和pop指令连在一起用。<br>在这使用的过程中，假如我们定义的栈空间为指定大小x，栈空间的其实地址为a。<br><strong>那么可能出现栈满时执行push或着栈空的时候执行pop带来的“栈顶超界”问题</strong>，8086并没有提供有关记录栈顶空间的寄存器，需要编程者自己注意。</p>
+<p>####3.2 用法</p>
+<blockquote>
+<p>mov ax,1000H<br>mov ss,ax<br>mov sp,0010H<br>push ax<br>push bx<br>push ds  </p>
+</blockquote>
+<p>上述指令执行了以下几个操作</p>
+<blockquote>
+<ol>
+<li>将1000H放入AX寄存器</li>
+<li>将栈段地址寄存器赋值1000H</li>
+<li>将栈偏移地址寄存器赋值0010H</li>
+<li>将AX寄存器的值压入栈</li>
+<li>将BX寄存器的值压入栈</li>
+<li>将DS寄存器的值压入栈</li>
+</ol>
+</blockquote>
+<p>####3.3 注意事项</p>
+<ol>
+<li>在汇编操作的过程中，8086CPU并<strong>不支持直接将值赋予SS寄存器</strong>，但是<strong>可以直接将值赋予SP寄存器</strong>。</li>
+<li>在入栈时，地址是从高向低增长。<h3 id="三-思考"><a href="#三-思考" class="headerlink" title="三. 思考"></a>三. 思考</h3></li>
+<li>内存里是二进制数，并不具备所谓的数据、命令、栈空间的区别，全都是一个个的二进制数；</li>
+<li>当CS、IP指向的是命令，DS、[Adress]指向的是数据，SS、SP指向栈空间的栈顶数据。</li>
+</ol>
 
       
     </div>
@@ -331,13 +391,17 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/03/21/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/21/1.1_汇编语言（内存操作思考）/" rel="prev" title="">
+              <a href="/2018/03/21/1.2_汇编(loop)/" rel="prev" title="">
                  <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -453,7 +517,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-问题提出"><span class="nav-number">1.</span> <span class="nav-text">一. 问题提出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-基础知识"><span class="nav-number">2.</span> <span class="nav-text">二. 基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三-思考"><span class="nav-number">2.1.</span> <span class="nav-text">三. 思考</span></a></li></ol></li></ol></div>
             
 
           </div>
