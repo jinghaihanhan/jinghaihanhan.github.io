@@ -228,807 +228,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/21/11test/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/21/11test/" itemprop="url">Unbenannt</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-21T16:35:36+08:00">
-                2018-03-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>——《汇编语言第三版》    王爽</p>
-</blockquote>
-<hr>
-<p>[toc]</p>
-<h2 id="一-问题提出"><a href="#一-问题提出" class="headerlink" title="一. 问题提出"></a>一. 问题提出</h2><ol>
-<li>存储在内存中的都是二进制数，如何区分指令，数据和栈空间？</li>
-</ol>
-<hr>
-<h2 id="二-基础知识"><a href="#二-基础知识" class="headerlink" title="二. 基础知识"></a>二. 基础知识</h2><p>###1. CS 和 IP    </p>
-<p>####1.1 定义<br>CS是代码段寄存器，IP是指令指针寄存器。  </p>
-<p>####1.2 用法<br>如果需要到20003H处寻找指令，即CS：IP = 2000：0003。<br>可以</p>
-<blockquote>
-<p>jmp 2000:3,</p>
-</blockquote>
-<p>此句执行后，CS = 2000H，IP=0003H，CPU将从20003H处读取指令。<br><strong>物理地址：20003H = 2000H（段地址） × 16 + 0003H（偏移地址）。</strong>（此处之所以×16是因为在8086CPU合成地址的规定，并不具备普遍意义。）  </p>
-<p>只要符合“段地址×规定倍率 + 偏移地址”格式得到的最终物理地址均有效，<strong>允许出现段地址与偏移地址不相同但是最终物理地址相同的情况</strong>。</p>
-<p>####1.3 注意事项</p>
-<ul>
-<li><p>8086CPU的工作过程可以描述如下：</p>
-<blockquote>
-<ol>
-<li>从CS：IP指向的内存单元读取指令，读取的指令进入指令缓冲区；</li>
-<li>IP=IP+所读取的指令的长度，从而指向下一条指令；</li>
-<li>执行指令。转到步骤1,重复这个过程。</li>
-</ol>
-</blockquote>
-</li>
-<li><p>在8086CPU中，无法直接对CS及IP寄存器进行操作，而通过“jmp 段地址：偏移地址”的指令进行对CS和IP寄存器的修改。<br>###2. DS 和 [Adress]<br>####2.1 定义</p>
-<blockquote>
-<p>CPU要读写一个内存单元的时候，必须先给出这个内存单元的地址，在8086中，内存地址有段地址和偏移地址组成。</p>
-</blockquote>
-</li>
-</ul>
-<p>上段所说的指向数据内存的段地址寄存器为<strong>DS</strong>。</p>
-<p>####2.2 用法<br>假如我们需要访问10000H单元的内容，可以用如下的程序段进行：</p>
-<blockquote>
-<p>mov bx,1000H<br>mov ds,bx<br>mov al,[0]  </p>
-</blockquote>
-<p>上述的3条指令将10000H（1000：0）中的数据读到al。</p>
-<p>####2.3 注意事项<br>完成上述指令目标时，为什么不能用下面的指令实现？</p>
-<blockquote>
-<p>mov ds,1000H</p>
-</blockquote>
-<p>即思考为什么不能将数值直接送入DS寄存器？<br>关于这一点，这是因为8086的CPU硬件设计部分的原因，感兴趣可以自己进行寻找答案。</p>
-<p>###3. SS 和 SP</p>
-<p>####3.1 定义<br>8086CPU用SS和SP指示栈顶的位置，SS为段地址，SP为偏移地址。常与push和pop指令连在一起用。<br>在这使用的过程中，假如我们定义的栈空间为指定大小x，栈空间的其实地址为a。<br><strong>那么可能出现栈满时执行push或着栈空的时候执行pop带来的“栈顶超界”问题</strong>，8086并没有提供有关记录栈顶空间的寄存器，需要编程者自己注意。</p>
-<p>####3.2 用法</p>
-<blockquote>
-<p>mov ax,1000H<br>mov ss,ax<br>mov sp,0010H<br>push ax<br>push bx<br>push ds  </p>
-</blockquote>
-<p>上述指令执行了以下几个操作</p>
-<blockquote>
-<ol>
-<li>将1000H放入AX寄存器</li>
-<li>将栈段地址寄存器赋值1000H</li>
-<li>将栈偏移地址寄存器赋值0010H</li>
-<li>将AX寄存器的值压入栈</li>
-<li>将BX寄存器的值压入栈</li>
-<li>将DS寄存器的值压入栈</li>
-</ol>
-</blockquote>
-<p>####3.3 注意事项</p>
-<ol>
-<li>在汇编操作的过程中，8086CPU并<strong>不支持直接将值赋予SS寄存器</strong>，但是<strong>可以直接将值赋予SP寄存器</strong>。</li>
-<li>在入栈时，地址是从高向低增长。<h3 id="三-思考"><a href="#三-思考" class="headerlink" title="三. 思考"></a>三. 思考</h3></li>
-<li>内存里是二进制数，并不具备所谓的数据、命令、栈空间的区别，全都是一个个的二进制数；</li>
-<li>当CS、IP指向的是命令，DS、[Adress]指向的是数据，SS、SP指向栈空间的栈顶数据。</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/21/1.5_汇编(转移指令的原理)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/21/1.5_汇编(转移指令的原理)/" itemprop="url">Unbenannt</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-21T16:32:16+08:00">
-                2018-03-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>——《编程语言》                    王爽 著  </p>
-</blockquote>
-<hr>
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>可以修改IP，或同时修改CS和IP的指令统称为转移指令。概括的说，转移指令就是可以控制CPU执行内存中某处代码的指令。<br>8086CPU的转移指令分为以下几类：  </p>
-<blockquote>
-<ol>
-<li>段间转移和段内转移<br>段内转移分两种：短转移和近转移`</li>
-</ol>
-</blockquote>
-<hr>
-<h3 id="1-常用的转移指令"><a href="#1-常用的转移指令" class="headerlink" title="1. 常用的转移指令"></a>1. 常用的转移指令</h3><p>####1.1 操作符offset<br>操作符offset在汇编语言中是由编译器处理的符号，它的功能是取得标号的偏移地址。<br>给出下列程序段，填写两条指令，使该程序在运行中将s处的一条指令复制到s0处。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">assume  cs:codesg  </span><br><span class="line">codesg  segment  </span><br><span class="line">    s:  mov ax,bx  </span><br><span class="line">        mov si,offset s  </span><br><span class="line">        mov di,offset s0  </span><br><span class="line">        __________  </span><br><span class="line">        __________  </span><br><span class="line">    s0: nop  </span><br><span class="line">        nop  </span><br><span class="line">codesg ends  </span><br><span class="line">end s</span><br></pre></td></tr></table></figure></p>
-<p>提出以下几个问题：</p>
-<blockquote>
-<ol>
-<li>s和s0处的指令所在的内存单元的地址是多少？  </li>
-<li>将s处的指令复制到s0处，如何进行操作？</li>
-<li>段地址已知在cs中，偏移地址offset s和offset s0已经送入si和di中。</li>
-<li>要复制的数据有多长？</li>
-</ol>
-</blockquote>
-<p>思考所得：</p>
-<blockquote>
-<ol>
-<li>通过“offset 标号”可以得到标号的地址；</li>
-<li>在8086CPU中，得到的标号地址是八位数据。</li>
-</ol>
-</blockquote>
-<p>####1.2 jmp指令</p>
-<blockquote>
-<ol>
-<li>根据位移进行转移的jmp指令<br>jmp short 标号（转到标号处执行指令）<br>这种情况下执行的jmp指令在机器指令里的跳转数据并不是目标程序（或标号）的地址，而是相对偏移地址，比如jmp的前一句指令的地址为a，跳转的目标指令的地址为b，在机器指令里，只出现b-a的值，并不直接指明地址b。<br>这说明，<strong><em>CPU在执行jmp指令的时候并不需要转移的目的地址</em></strong>。</li>
-<li>转移的目的地址在指令中的jmp指令<br>jmp far ptr 标号<br>上述指令实现的是段间转移，又称为远转移。可以同时修改CS和IP。</li>
-<li>转移地址在寄存器中的jmp指令<br>指令格式：jmp 16位reg<br>这种修改方式只能修改IP，并不能修改CS  </li>
-<li>转移地址在内存中的jmp指令<br>a、jmp word ptr 内存单元地址（段内转移）<br>在内存单元地址处开始存放着一个字<br>b、jmp dword ptr 内存单元地址（段间转移）<br>在内存单元地址处开始存放着两个字  </li>
-</ol>
-</blockquote>
-<p>我是否可以这么理解？当我提供给jmp16位数据时，只进行IP的修改，即进行段内转移，<br>当你提供给它32位数据时，它填满了IP，即会填充CS，实现段间转移。</p>
-<p>####1.3 jcxz条件转移指令<br>jcxz 标号（如果（cx）==0,转移到标号处执行）  </p>
-<p>####1.4 loop指令<br>loop指令为循环指令，所有的循环指令都是“短转移”，在对应的机器码中包含转移的位移，而不是目的地址。对IP的修改范围为：-128～127。</p>
-<hr>
-<h3 id="2-转移指令背后的思考"><a href="#2-转移指令背后的思考" class="headerlink" title="2. 转移指令背后的思考"></a>2. 转移指令背后的思考</h3><p>####2.1 根据位移进行转移的意义<br>采用这种位移的设计，方便了程序段在内存中的浮动装配。<br>如下程序所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    mov cx,6    B9 06 00 </span><br><span class="line">    mo ax,10h   B8 10 00 </span><br><span class="line">s:  add ax,ax   01 C0</span><br><span class="line">    loop s      E2 FC   ;前移了4个字节</span><br></pre></td></tr></table></figure></p>
-<p>这样的程序装在内存的不同位置都可正确执行。</p>
-<p>####2.2 编译器对转移位移超界的检测</p>
-<p>####2.3 </p>
-<hr>
-<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/21/1.4_汇编(数据处理的两个基本问题)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/21/1.4_汇编(数据处理的两个基本问题)/" itemprop="url">Unbenannt</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-21T16:32:16+08:00">
-                2018-03-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>——《编程语言》                    王爽 著  </p>
-</blockquote>
-<hr>
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>本章是对前面问题的一个总结。总结主要讨论以下两个问题。</p>
-<blockquote>
-<ol>
-<li>处理的数据在什么地方？</li>
-<li>要处理的数据有多？</li>
-</ol>
-</blockquote>
-<h3 id="1-机器指令处理的数据放在什么地方？"><a href="#1-机器指令处理的数据放在什么地方？" class="headerlink" title="1. 机器指令处理的数据放在什么地方？"></a>1. 机器指令处理的数据放在什么地方？</h3><p>在考虑机器如何处理数据之前，我们首先需要考虑我们要处理的数据所在的位置。</p>
-<p>####1.1 汇编语言中数据的表达</p>
-<p>####1.2 </p>
-<p>####1.3 </p>
-<h3 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/21/1.3_汇编(多段程序及内存定位) /">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/21/1.3_汇编(多段程序及内存定位) /" itemprop="url">Unbenannt</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-21T16:32:16+08:00">
-                2018-03-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>——《编程语言》                    王爽 著  </p>
-</blockquote>
-<hr>
-<h3 id="1-多段程序"><a href="#1-多段程序" class="headerlink" title="1. 多段程序"></a>1. 多段程序</h3><p>我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？</p>
-<blockquote>
-<ol>
-<li>在一个段中存放数据、代码、栈；</li>
-<li>将数据、代码、栈放入不同的段中。</li>
-</ol>
-</blockquote>
-<p>####1.1 在代码段中使用程序<br>先看下列程序：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line">code segment</span><br><span class="line">    dw 0123h,0456h,0789h,0abch,0defh,ofedh,0cbah,0987h</span><br><span class="line">    start:  mov bx,0</span><br><span class="line">            mov bx,0</span><br><span class="line">            </span><br><span class="line">            mov cx,0</span><br><span class="line">    s:      add ax,cs:[bx]</span><br><span class="line">            add bx,2</span><br><span class="line">            loop s</span><br><span class="line">            </span><br><span class="line">            mov ax,4c00h</span><br><span class="line">            int 21h</span><br><span class="line">code ends</span><br><span class="line">end start</span><br></pre></td></tr></table></figure></p>
-<p>需要说明的几个问题：</p>
-<blockquote>
-<p>1 dw的含义是define word，在这里，使用dw定义了8个字型数据；<br>2 end 后面的 start表明了程序的入口。end除了通知编译器程序在这里结束外，还可以通知编译器程序的入口在什么地方；<br>3 通过这种方法生成的数据，这8个数据存在于代码段的最开始，所以偏移地址为0,然后依次递增，8个字型数据存在于代码段的偏移0，2，4，6，8，A，C，E处。</p>
-</blockquote>
-<p>####1.2 在代码段中使用栈<br>程序的大概思路为先”dw”8个字型空间留给要用的数据，然后”dw”8个字型空的空间留做栈空间用。<br>假如我们设计将cs:10～cs:2F用做栈空间，那么需要在初始化设置时将cs段地址赋予ss中（中间经过ax寄存器做桥梁），然后将sp指向30h。</p>
-<p>####1.3 将数据、代码、栈放入不同的段<br>将数据、代码、栈都放在一起存在两个缺点：</p>
-<blockquote>
-<ol>
-<li>把它们放到一个段中使程序显得混乱；</li>
-<li>如果需要的空间超过64kb，既不能放在一个段中（8086模式中一个段的容量不能超过64kb）。</li>
-</ol>
-</blockquote>
-<p>程序大概格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code,ds:data,ss:stack</span><br><span class="line">data segment</span><br><span class="line">...</span><br><span class="line">data ends</span><br><span class="line"></span><br><span class="line">stack segment</span><br><span class="line">...</span><br><span class="line">stack ends</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line">start:  mov ax,stack</span><br><span class="line">        mov ss,ax</span><br><span class="line">        mov sp,20h      ;指向栈顶</span><br><span class="line">        mov ax,data</span><br><span class="line">        mov ds,ax       ;指向data段</span><br><span class="line">...</span><br><span class="line">code ends</span><br><span class="line"></span><br><span class="line">end start</span><br></pre></td></tr></table></figure></p>
-<p>这个代码一共定义了三段空间，通过名称“data”等来传递段地址，即在进行空间的定义的时候，在物理上就将三个空间分开，然后调用其相应的段地址即可。<br>此处再进行强调依次，在对段地址寄存器进行操作的时候，不能直接对其赋值，而应通过ax等寄存器作为桥梁。</p>
-<h3 id="2-更灵活的内存定位"><a href="#2-更灵活的内存定位" class="headerlink" title="2. 更灵活的内存定位"></a>2. 更灵活的内存定位</h3><p>基础知识点：</p>
-<blockquote>
-<ol>
-<li>and和or指令的用法；</li>
-<li>通过db ‘（字母）’的形式将对应的ASCII码值提取出来，db的意思是define byte；</li>
-<li>字母的大小写转换问题，仔细研究一下ASCII表中大小写字母的区别，差值固定；</li>
-<li>[bx + idata] 的意思是 [（bx）+ idata]（意义：为高级语言实现数组提供了便利机制）；</li>
-<li>提供了SI，DI两个16位寄存器，但是这两个寄存器并不能拆分成两个8位寄存器，功能和BX相近；</li>
-</ol>
-</blockquote>
-<p>结论：</p>
-<blockquote>
-<ol>
-<li>[idata]用一个常量来表示地址，可用于直接定位一个内存单元；</li>
-<li>[bx]用一个变量来表示内存地址，可用于间接定位一个内存单元；</li>
-<li>[bx+idata]用一个变量和常量表示地址，可在一个其实地址的基础上用变量简洁的定位一个内存单元；</li>
-<li>[bx+si]用两个变量表示地址；</li>
-<li>[bx+si+idata]用两个变量和一个常量表示地址。</li>
-</ol>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/21/1.2_汇编(loop)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/21/1.2_汇编(loop)/" itemprop="url">Unbenannt</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-21T16:32:16+08:00">
-                2018-03-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>——《编程语言》</p>
-</blockquote>
-<hr>
-<h3 id="1-loop"><a href="#1-loop" class="headerlink" title="1. loop"></a>1. loop</h3><p>####1.1 定义<br>CPU执行loop指令的时候，要进行两步操作:</p>
-<blockquote>
-<p>1 (cx) = (cx) - 1<br>2 判断cx中的值，不为零则转至标号处执行程序，如果为零则向下执行</p>
-</blockquote>
-<p>其中，cx为CX寄存器。n</p>
-<p>####1.2 编程案例<br>编程计算2^12的值</p>
-<blockquote>
-<p>assume cs:code<br>code segment<br>mov ax,2  </p>
-</blockquote>
-<blockquote>
-<p>mov cx,11<br><strong><em>s: add ax,ax</em></strong><br><strong><em>loop s</em></strong>  </p>
-</blockquote>
-<blockquote>
-<p>mov ax,4c00h<br>int 21h<br>code ends<br>end</p>
-</blockquote>
-<p>分析上述程序：<br>在汇编语言中，标号代表一个地址，s即是此程序中的标号,在<strong><em>loop ： s</em></strong>语句中执行以下步骤：</p>
-<blockquote>
-<p>1 (cx) = (cx) - 1<br>2 判断cx中的值，不为0则转至标号s所标识的地址处执行（这里的指令是<strong><em>add ax,ax</em></strong>），如果为零则执行下一条指令（下一条指令是mov ax,4c00h)。</p>
-</blockquote>
-<p>此处<strong><em>add ax,ax</em></strong>指令共执行了11次。<br>这里要注意的是,loop s 下面的语句是用来返回8086系统的cmd进程中的，与此处的知识点无关，如果有兴趣可以找时间研究。</p>
-<h3 id="2-实验"><a href="#2-实验" class="headerlink" title="2. 实验"></a>2. 实验</h3><blockquote>
-<ol>
-<li>编程，向内存0：200～0：23F依次传送数据0～63（3FH）。</li>
-<li>实现上述功能，且不能超过9条指令，且指令中应该包括<strong><em>mov ax,4c00h 和 int 21h</em></strong>。</li>
-</ol>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/21/1.1_汇编语言（内存操作思考）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1048,7 +247,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/21/1.1_汇编语言（内存操作思考）/" itemprop="url">Unbenannt</a></h1>
+                <a class="post-title-link" href="/2018/03/21/1.1_汇编语言（内存操作思考）/" itemprop="url">1.1_汇编语言（内存操作思考）</a></h1>
         
 
         <div class="post-meta">
@@ -1060,7 +259,7 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-21T16:32:16+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-21T16:41:36+08:00">
                 2018-03-21
               </time>
             
@@ -1104,21 +303,18 @@
 <p>——《汇编语言第三版》    王爽</p>
 </blockquote>
 <hr>
-<p>[toc]</p>
-<h2 id="一-问题提出"><a href="#一-问题提出" class="headerlink" title="一. 问题提出"></a>一. 问题提出</h2><ol>
+<h2 id="一-问题提出"><a href="#一-问题提出" class="headerlink" title="一 问题提出"></a>一 问题提出</h2><ol>
 <li>存储在内存中的都是二进制数，如何区分指令，数据和栈空间？</li>
 </ol>
 <hr>
-<h2 id="二-基础知识"><a href="#二-基础知识" class="headerlink" title="二. 基础知识"></a>二. 基础知识</h2><p>###1. CS 和 IP    </p>
-<p>####1.1 定义<br>CS是代码段寄存器，IP是指令指针寄存器。  </p>
-<p>####1.2 用法<br>如果需要到20003H处寻找指令，即CS：IP = 2000：0003。<br>可以</p>
+<h2 id="二-基础知识"><a href="#二-基础知识" class="headerlink" title="二 基础知识"></a>二 基础知识</h2><h3 id="1-CS-和-IP"><a href="#1-CS-和-IP" class="headerlink" title="1 CS 和 IP"></a>1 CS 和 IP</h3><h4 id="1-1-定义"><a href="#1-1-定义" class="headerlink" title="1.1 定义"></a>1.1 定义</h4><p>CS是代码段寄存器，IP是指令指针寄存器。  </p>
+<h4 id="1-2-用法"><a href="#1-2-用法" class="headerlink" title="1.2 用法"></a>1.2 用法</h4><p>如果需要到20003H处寻找指令，即CS：IP = 2000：0003。<br>可以</p>
 <blockquote>
 <p>jmp 2000:3,</p>
 </blockquote>
 <p>此句执行后，CS = 2000H，IP=0003H，CPU将从20003H处读取指令。<br><strong>物理地址：20003H = 2000H（段地址） × 16 + 0003H（偏移地址）。</strong>（此处之所以×16是因为在8086CPU合成地址的规定，并不具备普遍意义。）  </p>
 <p>只要符合“段地址×规定倍率 + 偏移地址”格式得到的最终物理地址均有效，<strong>允许出现段地址与偏移地址不相同但是最终物理地址相同的情况</strong>。</p>
-<p>####1.3 注意事项</p>
-<ul>
+<h4 id="1-3-注意事项"><a href="#1-3-注意事项" class="headerlink" title="1.3 注意事项"></a>1.3 注意事项</h4><ul>
 <li><p>8086CPU的工作过程可以描述如下：</p>
 <blockquote>
 <ol>
@@ -1128,27 +324,25 @@
 </ol>
 </blockquote>
 </li>
-<li><p>在8086CPU中，无法直接对CS及IP寄存器进行操作，而通过“jmp 段地址：偏移地址”的指令进行对CS和IP寄存器的修改。<br>###2. DS 和 [Adress]<br>####2.1 定义</p>
-<blockquote>
+<li><p>在8086CPU中，无法直接对CS及IP寄存器进行操作，而通过“jmp 段地址：偏移地址”的指令进行对CS和IP寄存器的修改。</p>
+<h3 id="2-DS-和-Adress"><a href="#2-DS-和-Adress" class="headerlink" title="2 DS 和 [Adress]"></a>2 DS 和 [Adress]</h3><h4 id="2-1-定义"><a href="#2-1-定义" class="headerlink" title="2.1 定义"></a>2.1 定义</h4><blockquote>
 <p>CPU要读写一个内存单元的时候，必须先给出这个内存单元的地址，在8086中，内存地址有段地址和偏移地址组成。</p>
 </blockquote>
 </li>
 </ul>
 <p>上段所说的指向数据内存的段地址寄存器为<strong>DS</strong>。</p>
-<p>####2.2 用法<br>假如我们需要访问10000H单元的内容，可以用如下的程序段进行：</p>
+<h4 id="2-2-用法"><a href="#2-2-用法" class="headerlink" title="2.2 用法"></a>2.2 用法</h4><p>假如我们需要访问10000H单元的内容，可以用如下的程序段进行：</p>
 <blockquote>
 <p>mov bx,1000H<br>mov ds,bx<br>mov al,[0]  </p>
 </blockquote>
 <p>上述的3条指令将10000H（1000：0）中的数据读到al。</p>
-<p>####2.3 注意事项<br>完成上述指令目标时，为什么不能用下面的指令实现？</p>
+<h4 id="2-3-注意事项"><a href="#2-3-注意事项" class="headerlink" title="2.3 注意事项"></a>2.3 注意事项</h4><p>完成上述指令目标时，为什么不能用下面的指令实现？</p>
 <blockquote>
 <p>mov ds,1000H</p>
 </blockquote>
 <p>即思考为什么不能将数值直接送入DS寄存器？<br>关于这一点，这是因为8086的CPU硬件设计部分的原因，感兴趣可以自己进行寻找答案。</p>
-<p>###3. SS 和 SP</p>
-<p>####3.1 定义<br>8086CPU用SS和SP指示栈顶的位置，SS为段地址，SP为偏移地址。常与push和pop指令连在一起用。<br>在这使用的过程中，假如我们定义的栈空间为指定大小x，栈空间的其实地址为a。<br><strong>那么可能出现栈满时执行push或着栈空的时候执行pop带来的“栈顶超界”问题</strong>，8086并没有提供有关记录栈顶空间的寄存器，需要编程者自己注意。</p>
-<p>####3.2 用法</p>
-<blockquote>
+<h3 id="3-SS-和-SP"><a href="#3-SS-和-SP" class="headerlink" title="3 SS 和 SP"></a>3 SS 和 SP</h3><h4 id="3-1-定义"><a href="#3-1-定义" class="headerlink" title="3.1 定义"></a>3.1 定义</h4><p>8086CPU用SS和SP指示栈顶的位置，SS为段地址，SP为偏移地址。常与push和pop指令连在一起用。<br>在这使用的过程中，假如我们定义的栈空间为指定大小x，栈空间的其实地址为a。<br><strong>那么可能出现栈满时执行push或着栈空的时候执行pop带来的“栈顶超界”问题</strong>，8086并没有提供有关记录栈顶空间的寄存器，需要编程者自己注意。</p>
+<h4 id="3-2-用法"><a href="#3-2-用法" class="headerlink" title="3.2 用法"></a>3.2 用法</h4><blockquote>
 <p>mov ax,1000H<br>mov ss,ax<br>mov sp,0010H<br>push ax<br>push bx<br>push ds  </p>
 </blockquote>
 <p>上述指令执行了以下几个操作</p>
@@ -1162,10 +356,9 @@
 <li>将DS寄存器的值压入栈</li>
 </ol>
 </blockquote>
-<p>####3.3 注意事项</p>
-<ol>
+<h3 id="3-3-注意事项"><a href="#3-3-注意事项" class="headerlink" title="3.3 注意事项"></a>3.3 注意事项</h3><ol>
 <li>在汇编操作的过程中，8086CPU并<strong>不支持直接将值赋予SS寄存器</strong>，但是<strong>可以直接将值赋予SP寄存器</strong>。</li>
-<li>在入栈时，地址是从高向低增长。<h3 id="三-思考"><a href="#三-思考" class="headerlink" title="三. 思考"></a>三. 思考</h3></li>
+<li>在入栈时，地址是从高向低增长。<h2 id="三-思考"><a href="#三-思考" class="headerlink" title="三 思考"></a>三 思考</h2></li>
 <li>内存里是二进制数，并不具备所谓的数据、命令、栈空间的区别，全都是一个个的二进制数；</li>
 <li>当CS、IP指向的是命令，DS、[Adress]指向的是数据，SS、SP指向栈空间的栈顶数据。</li>
 </ol>
@@ -1217,7 +410,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/21/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/21/new-article/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -1236,7 +429,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/21/hello-world/" itemprop="url">Hello World</a></h1>
+                <a class="post-title-link" href="/2018/03/21/new-article/" itemprop="url">new article</a></h1>
         
 
         <div class="post-meta">
@@ -1248,7 +441,7 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-21T15:25:01+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-21T16:41:36+08:00">
                 2018-03-21
               </time>
             
@@ -1288,16 +481,7 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
+            
           
         
       
@@ -1378,7 +562,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">Artikel</span>
                 </a>
               </div>

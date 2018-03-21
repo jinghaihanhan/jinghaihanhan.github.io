@@ -79,16 +79,16 @@
 
 
 
-<meta name="description" content="——《汇编语言第三版》    王爽   [toc] 一. 问题提出 存储在内存中的都是二进制数，如何区分指令，数据和栈空间？   二. 基础知识###1. CS 和 IP     ####1.1 定义CS是代码段寄存器，IP是指令指针寄存器。   ####1.2 用法如果需要到20003H处寻找指令，即CS：IP = 2000：0003。可以  jmp 2000:3,  此句执行后，CS = 2">
+<meta name="description" content="——《汇编语言第三版》    王爽   一 问题提出 存储在内存中的都是二进制数，如何区分指令，数据和栈空间？   二 基础知识1 CS 和 IP1.1 定义CS是代码段寄存器，IP是指令指针寄存器。   1.2 用法如果需要到20003H处寻找指令，即CS：IP = 2000：0003。可以  jmp 2000:3,  此句执行后，CS = 2000H，IP=0003H，CPU将从20003H">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="1.1_汇编语言（内存操作思考）">
 <meta property="og:url" content="http://yoursite.com/2018/03/21/1.1_汇编语言（内存操作思考）/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="——《汇编语言第三版》    王爽   [toc] 一. 问题提出 存储在内存中的都是二进制数，如何区分指令，数据和栈空间？   二. 基础知识###1. CS 和 IP     ####1.1 定义CS是代码段寄存器，IP是指令指针寄存器。   ####1.2 用法如果需要到20003H处寻找指令，即CS：IP = 2000：0003。可以  jmp 2000:3,  此句执行后，CS = 2">
-<meta property="og:updated_time" content="2018-03-15T07:52:12.117Z">
+<meta property="og:description" content="——《汇编语言第三版》    王爽   一 问题提出 存储在内存中的都是二进制数，如何区分指令，数据和栈空间？   二 基础知识1 CS 和 IP1.1 定义CS是代码段寄存器，IP是指令指针寄存器。   1.2 用法如果需要到20003H处寻找指令，即CS：IP = 2000：0003。可以  jmp 2000:3,  此句执行后，CS = 2000H，IP=0003H，CPU将从20003H">
+<meta property="og:updated_time" content="2018-03-21T08:52:32.728Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="——《汇编语言第三版》    王爽   [toc] 一. 问题提出 存储在内存中的都是二进制数，如何区分指令，数据和栈空间？   二. 基础知识###1. CS 和 IP     ####1.1 定义CS是代码段寄存器，IP是指令指针寄存器。   ####1.2 用法如果需要到20003H处寻找指令，即CS：IP = 2000：0003。可以  jmp 2000:3,  此句执行后，CS = 2">
+<meta name="twitter:title" content="1.1_汇编语言（内存操作思考）">
+<meta name="twitter:description" content="——《汇编语言第三版》    王爽   一 问题提出 存储在内存中的都是二进制数，如何区分指令，数据和栈空间？   二 基础知识1 CS 和 IP1.1 定义CS是代码段寄存器，IP是指令指针寄存器。   1.2 用法如果需要到20003H处寻找指令，即CS：IP = 2000：0003。可以  jmp 2000:3,  此句执行后，CS = 2000H，IP=0003H，CPU将从20003H">
 
 
 
@@ -124,7 +124,7 @@
 
 
 
-  <title> | Hexo</title>
+  <title>1.1_汇编语言（内存操作思考） | Hexo</title>
   
 
 
@@ -248,7 +248,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline"></h1>
+          <h1 class="post-title" itemprop="name headline">1.1_汇编语言（内存操作思考）</h1>
         
 
         <div class="post-meta">
@@ -260,7 +260,7 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-21T16:32:16+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-21T16:41:36+08:00">
                 2018-03-21
               </time>
             
@@ -302,21 +302,18 @@
 <p>——《汇编语言第三版》    王爽</p>
 </blockquote>
 <hr>
-<p>[toc]</p>
-<h2 id="一-问题提出"><a href="#一-问题提出" class="headerlink" title="一. 问题提出"></a>一. 问题提出</h2><ol>
+<h2 id="一-问题提出"><a href="#一-问题提出" class="headerlink" title="一 问题提出"></a>一 问题提出</h2><ol>
 <li>存储在内存中的都是二进制数，如何区分指令，数据和栈空间？</li>
 </ol>
 <hr>
-<h2 id="二-基础知识"><a href="#二-基础知识" class="headerlink" title="二. 基础知识"></a>二. 基础知识</h2><p>###1. CS 和 IP    </p>
-<p>####1.1 定义<br>CS是代码段寄存器，IP是指令指针寄存器。  </p>
-<p>####1.2 用法<br>如果需要到20003H处寻找指令，即CS：IP = 2000：0003。<br>可以</p>
+<h2 id="二-基础知识"><a href="#二-基础知识" class="headerlink" title="二 基础知识"></a>二 基础知识</h2><h3 id="1-CS-和-IP"><a href="#1-CS-和-IP" class="headerlink" title="1 CS 和 IP"></a>1 CS 和 IP</h3><h4 id="1-1-定义"><a href="#1-1-定义" class="headerlink" title="1.1 定义"></a>1.1 定义</h4><p>CS是代码段寄存器，IP是指令指针寄存器。  </p>
+<h4 id="1-2-用法"><a href="#1-2-用法" class="headerlink" title="1.2 用法"></a>1.2 用法</h4><p>如果需要到20003H处寻找指令，即CS：IP = 2000：0003。<br>可以</p>
 <blockquote>
 <p>jmp 2000:3,</p>
 </blockquote>
 <p>此句执行后，CS = 2000H，IP=0003H，CPU将从20003H处读取指令。<br><strong>物理地址：20003H = 2000H（段地址） × 16 + 0003H（偏移地址）。</strong>（此处之所以×16是因为在8086CPU合成地址的规定，并不具备普遍意义。）  </p>
 <p>只要符合“段地址×规定倍率 + 偏移地址”格式得到的最终物理地址均有效，<strong>允许出现段地址与偏移地址不相同但是最终物理地址相同的情况</strong>。</p>
-<p>####1.3 注意事项</p>
-<ul>
+<h4 id="1-3-注意事项"><a href="#1-3-注意事项" class="headerlink" title="1.3 注意事项"></a>1.3 注意事项</h4><ul>
 <li><p>8086CPU的工作过程可以描述如下：</p>
 <blockquote>
 <ol>
@@ -326,27 +323,25 @@
 </ol>
 </blockquote>
 </li>
-<li><p>在8086CPU中，无法直接对CS及IP寄存器进行操作，而通过“jmp 段地址：偏移地址”的指令进行对CS和IP寄存器的修改。<br>###2. DS 和 [Adress]<br>####2.1 定义</p>
-<blockquote>
+<li><p>在8086CPU中，无法直接对CS及IP寄存器进行操作，而通过“jmp 段地址：偏移地址”的指令进行对CS和IP寄存器的修改。</p>
+<h3 id="2-DS-和-Adress"><a href="#2-DS-和-Adress" class="headerlink" title="2 DS 和 [Adress]"></a>2 DS 和 [Adress]</h3><h4 id="2-1-定义"><a href="#2-1-定义" class="headerlink" title="2.1 定义"></a>2.1 定义</h4><blockquote>
 <p>CPU要读写一个内存单元的时候，必须先给出这个内存单元的地址，在8086中，内存地址有段地址和偏移地址组成。</p>
 </blockquote>
 </li>
 </ul>
 <p>上段所说的指向数据内存的段地址寄存器为<strong>DS</strong>。</p>
-<p>####2.2 用法<br>假如我们需要访问10000H单元的内容，可以用如下的程序段进行：</p>
+<h4 id="2-2-用法"><a href="#2-2-用法" class="headerlink" title="2.2 用法"></a>2.2 用法</h4><p>假如我们需要访问10000H单元的内容，可以用如下的程序段进行：</p>
 <blockquote>
 <p>mov bx,1000H<br>mov ds,bx<br>mov al,[0]  </p>
 </blockquote>
 <p>上述的3条指令将10000H（1000：0）中的数据读到al。</p>
-<p>####2.3 注意事项<br>完成上述指令目标时，为什么不能用下面的指令实现？</p>
+<h4 id="2-3-注意事项"><a href="#2-3-注意事项" class="headerlink" title="2.3 注意事项"></a>2.3 注意事项</h4><p>完成上述指令目标时，为什么不能用下面的指令实现？</p>
 <blockquote>
 <p>mov ds,1000H</p>
 </blockquote>
 <p>即思考为什么不能将数值直接送入DS寄存器？<br>关于这一点，这是因为8086的CPU硬件设计部分的原因，感兴趣可以自己进行寻找答案。</p>
-<p>###3. SS 和 SP</p>
-<p>####3.1 定义<br>8086CPU用SS和SP指示栈顶的位置，SS为段地址，SP为偏移地址。常与push和pop指令连在一起用。<br>在这使用的过程中，假如我们定义的栈空间为指定大小x，栈空间的其实地址为a。<br><strong>那么可能出现栈满时执行push或着栈空的时候执行pop带来的“栈顶超界”问题</strong>，8086并没有提供有关记录栈顶空间的寄存器，需要编程者自己注意。</p>
-<p>####3.2 用法</p>
-<blockquote>
+<h3 id="3-SS-和-SP"><a href="#3-SS-和-SP" class="headerlink" title="3 SS 和 SP"></a>3 SS 和 SP</h3><h4 id="3-1-定义"><a href="#3-1-定义" class="headerlink" title="3.1 定义"></a>3.1 定义</h4><p>8086CPU用SS和SP指示栈顶的位置，SS为段地址，SP为偏移地址。常与push和pop指令连在一起用。<br>在这使用的过程中，假如我们定义的栈空间为指定大小x，栈空间的其实地址为a。<br><strong>那么可能出现栈满时执行push或着栈空的时候执行pop带来的“栈顶超界”问题</strong>，8086并没有提供有关记录栈顶空间的寄存器，需要编程者自己注意。</p>
+<h4 id="3-2-用法"><a href="#3-2-用法" class="headerlink" title="3.2 用法"></a>3.2 用法</h4><blockquote>
 <p>mov ax,1000H<br>mov ss,ax<br>mov sp,0010H<br>push ax<br>push bx<br>push ds  </p>
 </blockquote>
 <p>上述指令执行了以下几个操作</p>
@@ -360,10 +355,9 @@
 <li>将DS寄存器的值压入栈</li>
 </ol>
 </blockquote>
-<p>####3.3 注意事项</p>
-<ol>
+<h3 id="3-3-注意事项"><a href="#3-3-注意事项" class="headerlink" title="3.3 注意事项"></a>3.3 注意事项</h3><ol>
 <li>在汇编操作的过程中，8086CPU并<strong>不支持直接将值赋予SS寄存器</strong>，但是<strong>可以直接将值赋予SP寄存器</strong>。</li>
-<li>在入栈时，地址是从高向低增长。<h3 id="三-思考"><a href="#三-思考" class="headerlink" title="三. 思考"></a>三. 思考</h3></li>
+<li>在入栈时，地址是从高向低增长。<h2 id="三-思考"><a href="#三-思考" class="headerlink" title="三 思考"></a>三 思考</h2></li>
 <li>内存里是二进制数，并不具备所谓的数据、命令、栈空间的区别，全都是一个个的二进制数；</li>
 <li>当CS、IP指向的是命令，DS、[Adress]指向的是数据，SS、SP指向栈空间的栈顶数据。</li>
 </ol>
@@ -391,8 +385,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/21/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2018/03/21/new-article/" rel="next" title="new article">
+                <i class="fa fa-chevron-left"></i> new article
               </a>
             
           </div>
@@ -400,10 +394,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/21/1.2_汇编(loop)/" rel="prev" title="">
-                 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -480,7 +470,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">Artikel</span>
                 </a>
               </div>
@@ -517,7 +507,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-问题提出"><span class="nav-number">1.</span> <span class="nav-text">一. 问题提出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-基础知识"><span class="nav-number">2.</span> <span class="nav-text">二. 基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三-思考"><span class="nav-number">2.1.</span> <span class="nav-text">三. 思考</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-问题提出"><span class="nav-number">1.</span> <span class="nav-text">一 问题提出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-基础知识"><span class="nav-number">2.</span> <span class="nav-text">二 基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-CS-和-IP"><span class="nav-number">2.1.</span> <span class="nav-text">1 CS 和 IP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-定义"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.1 定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-用法"><span class="nav-number">2.1.2.</span> <span class="nav-text">1.2 用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-注意事项"><span class="nav-number">2.1.3.</span> <span class="nav-text">1.3 注意事项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-DS-和-Adress"><span class="nav-number">2.2.</span> <span class="nav-text">2 DS 和 [Adress]</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-定义"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.1 定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-用法"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2 用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-注意事项"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.3 注意事项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-SS-和-SP"><span class="nav-number">2.3.</span> <span class="nav-text">3 SS 和 SP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-定义"><span class="nav-number">2.3.1.</span> <span class="nav-text">3.1 定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-用法"><span class="nav-number">2.3.2.</span> <span class="nav-text">3.2 用法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-注意事项"><span class="nav-number">2.4.</span> <span class="nav-text">3.3 注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-思考"><span class="nav-number">3.</span> <span class="nav-text">三 思考</span></a></li></ol></div>
             
 
           </div>
