@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="多段程序我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？   在一个段中存放数据、代码、栈； 将数据、代码、栈放入不同的段中。">
+<meta name="description" content="多段程序我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？">
 <meta name="keywords" content="汇编">
 <meta property="og:type" content="article">
 <meta property="og:title" content="1.3_汇编(多段程序及内存定位)">
 <meta property="og:url" content="http://yoursite.com/2018/03/22/1.3_汇编(多段程序及内存定位) /index.html">
 <meta property="og:site_name" content="善己呵物 莫逆于心">
-<meta property="og:description" content="多段程序我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？   在一个段中存放数据、代码、栈； 将数据、代码、栈放入不同的段中。">
+<meta property="og:description" content="多段程序我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-22T06:13:38.558Z">
+<meta property="og:updated_time" content="2018-03-22T08:08:42.501Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1.3_汇编(多段程序及内存定位)">
-<meta name="twitter:description" content="多段程序我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？   在一个段中存放数据、代码、栈； 将数据、代码、栈放入不同的段中。">
+<meta name="twitter:description" content="多段程序我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？">
 
 
 
@@ -363,12 +363,11 @@
       
 
       
-        <h3 id="多段程序"><a href="#多段程序" class="headerlink" title="多段程序"></a>多段程序</h3><p>我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？</p>
+        <h3 id="多段程序"><a href="#多段程序" class="headerlink" title="多段程序"></a>多段程序</h3><p>我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？<br><a id="more"></a></p>
 <blockquote>
 <ol>
 <li>在一个段中存放数据、代码、栈；</li>
-<li>将数据、代码、栈放入不同的段中。<a id="more"></a>
-</li>
+<li>将数据、代码、栈放入不同的段中。</li>
 </ol>
 </blockquote>
 <h4 id="在代码段中使用程序"><a href="#在代码段中使用程序" class="headerlink" title="在代码段中使用程序"></a>在代码段中使用程序</h4><p>先看下列程序：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line">code segment</span><br><span class="line">    dw 0123h,0456h,0789h,0abch,0defh,ofedh,0cbah,0987h</span><br><span class="line">    start:  mov bx,0</span><br><span class="line">            mov bx,0</span><br><span class="line">            </span><br><span class="line">            mov cx,0</span><br><span class="line">    s:      add ax,cs:[bx]</span><br><span class="line">            add bx,2</span><br><span class="line">            loop s</span><br><span class="line">            </span><br><span class="line">            mov ax,4c00h</span><br><span class="line">            int 21h</span><br><span class="line">code ends</span><br><span class="line">end start</span><br></pre></td></tr></table></figure></p>
