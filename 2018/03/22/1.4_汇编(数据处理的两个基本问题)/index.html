@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="善己呵物 莫逆于心">
 <meta property="og:description" content="前言本章是对前面问题的一个总结。总结主要讨论以下两个问题。   处理的数据在什么地方？ 要处理的数据有多少？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-22T06:13:58.302Z">
+<meta property="og:updated_time" content="2018-03-22T07:46:47.722Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1.4_汇编(数据处理的两个基本问题)">
 <meta name="twitter:description" content="前言本章是对前面问题的一个总结。总结主要讨论以下两个问题。   处理的数据在什么地方？ 要处理的数据有多少？">
@@ -371,10 +371,19 @@
 </li>
 </ol>
 </blockquote>
-<h3 id="机器指令处理的数据放在什么地方？"><a href="#机器指令处理的数据放在什么地方？" class="headerlink" title="机器指令处理的数据放在什么地方？"></a>机器指令处理的数据放在什么地方？</h3><p>在考虑机器如何处理数据之前，我们首先需要考虑我们要处理的数据所在的位置。</p>
-<h4 id="汇编语言中数据的表达"><a href="#汇编语言中数据的表达" class="headerlink" title="汇编语言中数据的表达"></a>汇编语言中数据的表达</h4><p>#### </p>
-<p>#### </p>
-<p>### </p>
+<hr>
+<h3 id="机器指令处理的数据放在什么地方？"><a href="#机器指令处理的数据放在什么地方？" class="headerlink" title="机器指令处理的数据放在什么地方？"></a>机器指令处理的数据放在什么地方？</h3><p>在考虑机器如何处理数据之前，我们首先需要考虑我们要处理的数据所在的位置。<br>指令在执行前，所要处理的数据可以在3个地方：CPU内部、内存、端口（书籍的后半部分会进行讨论）。  </p>
+<h4 id="立即数"><a href="#立即数" class="headerlink" title="立即数"></a>立即数</h4><p>对于直接包含在机器指令中的数据（执行前在CPU的指令缓冲器中），在汇编语言中称为“立即数”（idata），在汇编指令中直接给出。<br>如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov ax,1</span><br><span class="line">add bx,2000h</span><br><span class="line">or  bx,00010000b</span><br><span class="line">mov al,&apos;a&apos;</span><br></pre></td></tr></table></figure></p>
+<p>我的理解：数据可以以直接给出数据的形式展现出来，如上，一共涉及了4种格式：10进制数，16进制数，2进制数，ASCII码形式。  </p>
+<h4 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h4><p>指令要处理的数据在寄存器中，在汇编指令中给出相应的寄存器名。<br>如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mov ax,bx</span><br><span class="line">mov ds,ax</span><br><span class="line">mov ds:[0],bx</span><br><span class="line"></span><br><span class="line">push    bx</span><br><span class="line">pop     ds</span><br></pre></td></tr></table></figure></p>
+<p>从寄存器里取出的值可以用来赋予普通寄存器，也可以用来存入某个地址的内存单元，也可以入栈等。  </p>
+<h4 id="段地址（SA）和偏移地址（EA）"><a href="#段地址（SA）和偏移地址（EA）" class="headerlink" title="段地址（SA）和偏移地址（EA）"></a>段地址（SA）和偏移地址（EA）</h4><p>如果指令要处理的数据在内存中，在汇编指令中可用[X]的格式给出EA，SA在某个段寄存器中。  </p>
+<hr>
+<h3 id="指令要处理的数据有多长"><a href="#指令要处理的数据有多长" class="headerlink" title="指令要处理的数据有多长"></a>指令要处理的数据有多长</h3><p>8086CPU的指令，可以处理两种尺寸的数据，byte和word。所以在机器指令中要指明，指令进行的是字操作还是字节操作。可以用以下几个方法处理：  </p>
+<h4 id="通过寄存器名指明要处理的数据的尺寸"><a href="#通过寄存器名指明要处理的数据的尺寸" class="headerlink" title="通过寄存器名指明要处理的数据的尺寸"></a>通过寄存器名指明要处理的数据的尺寸</h4><p>如果要处理的是字指令，那么使用16位寄存器如ax等进行中转；<br>如果要处理的是字节指令，使用8位寄存器如al等进行中转。  </p>
+<h4 id="可以用操作符指明数据长度"><a href="#可以用操作符指明数据长度" class="headerlink" title="可以用操作符指明数据长度"></a>可以用操作符指明数据长度</h4><p>运用操作符X ptr 指明内存单元的长度，X在汇编指令中可以为word或byte。<br>例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov word ptr ds:[0],1</span><br><span class="line">inc word ptr [bx]</span><br><span class="line">inc word ptr ds:[0]</span><br><span class="line">add word ptr [bx],2</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov byte ptr ds:[0],1</span><br><span class="line">mov byte ptr [bx]</span><br><span class="line">mov byte ptr ds:[0]</span><br><span class="line">mov byte ptr [bx],2</span><br></pre></td></tr></table></figure>
+<h4 id="其它方法"><a href="#其它方法" class="headerlink" title="其它方法"></a>其它方法</h4><p>有些指令默认了的是字单元还是字节单元，比如，push [1000H]就不用指明访问的是字还是字节，因为push指令只进行字操作。</p>
 <hr>
 <blockquote>
 <p>——《编程语言》                    王爽 著  </p>
@@ -567,7 +576,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#机器指令处理的数据放在什么地方？"><span class="nav-number">2.</span> <span class="nav-text">机器指令处理的数据放在什么地方？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#汇编语言中数据的表达"><span class="nav-number">2.1.</span> <span class="nav-text">汇编语言中数据的表达</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#机器指令处理的数据放在什么地方？"><span class="nav-number">2.</span> <span class="nav-text">机器指令处理的数据放在什么地方？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#立即数"><span class="nav-number">2.1.</span> <span class="nav-text">立即数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#寄存器"><span class="nav-number">2.2.</span> <span class="nav-text">寄存器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#段地址（SA）和偏移地址（EA）"><span class="nav-number">2.3.</span> <span class="nav-text">段地址（SA）和偏移地址（EA）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指令要处理的数据有多长"><span class="nav-number">3.</span> <span class="nav-text">指令要处理的数据有多长</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通过寄存器名指明要处理的数据的尺寸"><span class="nav-number">3.1.</span> <span class="nav-text">通过寄存器名指明要处理的数据的尺寸</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可以用操作符指明数据长度"><span class="nav-number">3.2.</span> <span class="nav-text">可以用操作符指明数据长度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其它方法"><span class="nav-number">3.3.</span> <span class="nav-text">其它方法</span></a></li></ol></li></ol></div>
             
 
           </div>
