@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="——《编程语言》                    王爽 著     1. 多段程序我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？   在一个段中存放数据、代码、栈； 将数据、代码、栈放入不同的段中。   ####1.1 在代码段中使用程序先看下列程序：123456789101112131415assume">
+<meta name="description" content="——《编程语言》                    王爽 著     多段程序我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？   在一个段中存放数据、代码、栈； 将数据、代码、栈放入不同的段中。">
+<meta name="keywords" content="汇编">
 <meta property="og:type" content="website">
-<meta property="og:title" content="善己呵物 莫逆于心">
+<meta property="og:title" content="1.3_汇编(多段程序及内存定位)">
 <meta property="og:url" content="http://yoursite.com/1.3_汇编(多段程序及内存定位) .html">
 <meta property="og:site_name" content="善己呵物 莫逆于心">
-<meta property="og:description" content="——《编程语言》                    王爽 著     1. 多段程序我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？   在一个段中存放数据、代码、栈； 将数据、代码、栈放入不同的段中。   ####1.1 在代码段中使用程序先看下列程序：123456789101112131415assume">
+<meta property="og:description" content="——《编程语言》                    王爽 著     多段程序我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？   在一个段中存放数据、代码、栈； 将数据、代码、栈放入不同的段中。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-16T08:08:22.554Z">
+<meta property="og:updated_time" content="2018-03-22T05:58:50.171Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="善己呵物 莫逆于心">
-<meta name="twitter:description" content="——《编程语言》                    王爽 著     1. 多段程序我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？   在一个段中存放数据、代码、栈； 将数据、代码、栈放入不同的段中。   ####1.1 在代码段中使用程序先看下列程序：123456789101112131415assume">
+<meta name="twitter:title" content="1.3_汇编(多段程序及内存定位)">
+<meta name="twitter:description" content="——《编程语言》                    王爽 著     多段程序我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？   在一个段中存放数据、代码、栈； 将数据、代码、栈放入不同的段中。">
 
 
 
@@ -125,7 +126,7 @@
 
 
 
-  <title> | 善己呵物 莫逆于心</title>
+  <title>1.3_汇编(多段程序及内存定位) | 善己呵物 莫逆于心</title>
   
 
 
@@ -255,7 +256,7 @@
     <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline"></h1>
+	<h1 class="post-title" itemprop="name headline">1.3_汇编(多段程序及内存定位)</h1>
 
 
 
@@ -271,20 +272,21 @@
 <p>——《编程语言》                    王爽 著  </p>
 </blockquote>
 <hr>
-<h3 id="1-多段程序"><a href="#1-多段程序" class="headerlink" title="1. 多段程序"></a>1. 多段程序</h3><p>我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？</p>
+<h3 id="多段程序"><a href="#多段程序" class="headerlink" title="多段程序"></a>多段程序</h3><p>我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？</p>
 <blockquote>
 <ol>
 <li>在一个段中存放数据、代码、栈；</li>
-<li>将数据、代码、栈放入不同的段中。</li>
+<li>将数据、代码、栈放入不同的段中。<a id="more"></a>
+</li>
 </ol>
 </blockquote>
-<p>####1.1 在代码段中使用程序<br>先看下列程序：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line">code segment</span><br><span class="line">    dw 0123h,0456h,0789h,0abch,0defh,ofedh,0cbah,0987h</span><br><span class="line">    start:  mov bx,0</span><br><span class="line">            mov bx,0</span><br><span class="line">            </span><br><span class="line">            mov cx,0</span><br><span class="line">    s:      add ax,cs:[bx]</span><br><span class="line">            add bx,2</span><br><span class="line">            loop s</span><br><span class="line">            </span><br><span class="line">            mov ax,4c00h</span><br><span class="line">            int 21h</span><br><span class="line">code ends</span><br><span class="line">end start</span><br></pre></td></tr></table></figure></p>
+<h4 id="在代码段中使用程序"><a href="#在代码段中使用程序" class="headerlink" title="在代码段中使用程序"></a>在代码段中使用程序</h4><p>先看下列程序：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line">code segment</span><br><span class="line">    dw 0123h,0456h,0789h,0abch,0defh,ofedh,0cbah,0987h</span><br><span class="line">    start:  mov bx,0</span><br><span class="line">            mov bx,0</span><br><span class="line">            </span><br><span class="line">            mov cx,0</span><br><span class="line">    s:      add ax,cs:[bx]</span><br><span class="line">            add bx,2</span><br><span class="line">            loop s</span><br><span class="line">            </span><br><span class="line">            mov ax,4c00h</span><br><span class="line">            int 21h</span><br><span class="line">code ends</span><br><span class="line">end start</span><br></pre></td></tr></table></figure></p>
 <p>需要说明的几个问题：</p>
 <blockquote>
-<p>1 dw的含义是define word，在这里，使用dw定义了8个字型数据；<br>2 end 后面的 start表明了程序的入口。end除了通知编译器程序在这里结束外，还可以通知编译器程序的入口在什么地方；<br>3 通过这种方法生成的数据，这8个数据存在于代码段的最开始，所以偏移地址为0,然后依次递增，8个字型数据存在于代码段的偏移0，2，4，6，8，A，C，E处。</p>
+<p>1 dw的含义是define word，在这里，使用dw定义了8个字型数据；<br>2 end 后面的 start表明了程序的入口。end除了通知编译器程序在这里结束外，还可以通知编译器程序的入口在什么地方；<br>3 通过这种方法生成的数据，这8个数据存在于代码段的最开始，所以偏移地址为0,然后依次递增，8个字型数据存在于代码段的偏移0，2，4，6，8，A，C，E处。  </p>
 </blockquote>
-<p>####1.2 在代码段中使用栈<br>程序的大概思路为先”dw”8个字型空间留给要用的数据，然后”dw”8个字型空的空间留做栈空间用。<br>假如我们设计将cs:10～cs:2F用做栈空间，那么需要在初始化设置时将cs段地址赋予ss中（中间经过ax寄存器做桥梁），然后将sp指向30h。</p>
-<p>####1.3 将数据、代码、栈放入不同的段<br>将数据、代码、栈都放在一起存在两个缺点：</p>
+<h4 id="在代码段中使用栈"><a href="#在代码段中使用栈" class="headerlink" title="在代码段中使用栈"></a>在代码段中使用栈</h4><p>程序的大概思路为先”dw”8个字型空间留给要用的数据，然后”dw”8个字型空的空间留做栈空间用。<br>假如我们设计将cs:10～cs:2F用做栈空间，那么需要在初始化设置时将cs段地址赋予ss中（中间经过ax寄存器做桥梁），然后将sp指向30h。  </p>
+<h4 id="将数据、代码、栈放入不同的段"><a href="#将数据、代码、栈放入不同的段" class="headerlink" title="将数据、代码、栈放入不同的段"></a>将数据、代码、栈放入不同的段</h4><p>将数据、代码、栈都放在一起存在两个缺点：</p>
 <blockquote>
 <ol>
 <li>把它们放到一个段中使程序显得混乱；</li>
@@ -292,8 +294,8 @@
 </ol>
 </blockquote>
 <p>程序大概格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code,ds:data,ss:stack</span><br><span class="line">data segment</span><br><span class="line">...</span><br><span class="line">data ends</span><br><span class="line"></span><br><span class="line">stack segment</span><br><span class="line">...</span><br><span class="line">stack ends</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line">start:  mov ax,stack</span><br><span class="line">        mov ss,ax</span><br><span class="line">        mov sp,20h      ;指向栈顶</span><br><span class="line">        mov ax,data</span><br><span class="line">        mov ds,ax       ;指向data段</span><br><span class="line">...</span><br><span class="line">code ends</span><br><span class="line"></span><br><span class="line">end start</span><br></pre></td></tr></table></figure></p>
-<p>这个代码一共定义了三段空间，通过名称“data”等来传递段地址，即在进行空间的定义的时候，在物理上就将三个空间分开，然后调用其相应的段地址即可。<br>此处再进行强调依次，在对段地址寄存器进行操作的时候，不能直接对其赋值，而应通过ax等寄存器作为桥梁。</p>
-<h3 id="2-更灵活的内存定位"><a href="#2-更灵活的内存定位" class="headerlink" title="2. 更灵活的内存定位"></a>2. 更灵活的内存定位</h3><p>基础知识点：</p>
+<p>这个代码一共定义了三段空间，通过名称“data”等来传递段地址，即在进行空间的定义的时候，在物理上就将三个空间分开，然后调用其相应的段地址即可。<br>此处再进行强调依次，在对段地址寄存器进行操作的时候，不能直接对其赋值，而应通过ax等寄存器作为桥梁。  </p>
+<h3 id="更灵活的内存定位"><a href="#更灵活的内存定位" class="headerlink" title="更灵活的内存定位"></a>更灵活的内存定位</h3><p>基础知识点：</p>
 <blockquote>
 <ol>
 <li>and和or指令的用法；</li>
@@ -303,7 +305,7 @@
 <li>提供了SI，DI两个16位寄存器，但是这两个寄存器并不能拆分成两个8位寄存器，功能和BX相近；</li>
 </ol>
 </blockquote>
-<p>结论：</p>
+<p>结论：  </p>
 <blockquote>
 <ol>
 <li>[idata]用一个常量来表示地址，可用于直接定位一个内存单元；</li>
@@ -394,7 +396,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -449,7 +451,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-多段程序"><span class="nav-number">1.</span> <span class="nav-text">1. 多段程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-更灵活的内存定位"><span class="nav-number">2.</span> <span class="nav-text">2. 更灵活的内存定位</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#多段程序"><span class="nav-number">1.</span> <span class="nav-text">多段程序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在代码段中使用程序"><span class="nav-number">1.1.</span> <span class="nav-text">在代码段中使用程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在代码段中使用栈"><span class="nav-number">1.2.</span> <span class="nav-text">在代码段中使用栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将数据、代码、栈放入不同的段"><span class="nav-number">1.3.</span> <span class="nav-text">将数据、代码、栈放入不同的段</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更灵活的内存定位"><span class="nav-number">2.</span> <span class="nav-text">更灵活的内存定位</span></a></li></ol></div>
             
 
           </div>
@@ -614,7 +616,7 @@
         var disqus_config = function () {
           this.page.url = 'http://yoursite.com/1.3_汇编(多段程序及内存定位) .html';
           this.page.identifier = '1.3_汇编(多段程序及内存定位) .html';
-          this.page.title = '';
+          this.page.title = '1.3_汇编(多段程序及内存定位)';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://.disqus.com/embed.js';
