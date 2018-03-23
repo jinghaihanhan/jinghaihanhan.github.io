@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Ubuntu（命令及桌面整理）]]></title>
+    <url>%2F2018%2F03%2F23%2FUbuntu%EF%BC%88%E5%91%BD%E4%BB%A4%E5%8F%8A%E6%A1%8C%E9%9D%A2%E6%95%B4%E7%90%86%EF%BC%89%2F</url>
+    <content type="text"><![CDATA[遇到的困难 电脑屏幕太小，想同时进行文档查看和文档撰写，特别不方便。 每次上传文件，都需要到目标文件夹里面去执行终端命令，感觉很繁琐。 解决问题的办法 下载了一个ubuntu的unity管理系统——Unity Tweak Tools。实现了以下几个功能： 1 可以自由的更换系统主题，主题图标；2 可以增加工作空间，快捷键ctrl+s，可以多设立几个工作空间，然后将不同的任务进行分配； 通过编写命令集合的shell文件来实现目的：比如我需要实现不用去目标文件夹即可以上传备份工作文件的目的： 1 先将要存放shell脚本的文件夹建立好，复制文件夹的路经；2 打开～目录下的.bashrc文件，加入路径作为环境变量（具体设置方法可以百度，此处只提供思路）；3 然后编写shell脚本，如我的脚本就是“声明，切换目录到指定文件夹，输入对应指令”；4 然后在任一地方打开终端，输入指令source [文件名]即可。（source bash sh都可，但取决于你定义的shell脚本的声明）。]]></content>
+      <categories>
+        <category>日常随笔</category>
+      </categories>
+      <tags>
+        <tag>ubuntu桌面</tag>
+        <tag>ubuntu命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[1.6_汇编(CALL和RET指令)]]></title>
     <url>%2F2018%2F03%2F22%2F1.6_%E6%B1%87%E7%BC%96(CALL%E5%92%8CRET%E6%8C%87%E4%BB%A4)%2F</url>
     <content type="text"><![CDATA[前言call和ret指令都是转移指令，他们都修改IP，或同时修改CS和IP。他们经常被共同用来实现子程序的设计。下面将介绍call和ret指令的原理。 常用的转移指令#### 操作符offset 转移指令背后的思考 后记通过对CPU工作原理的深入学习，实现在底层上真正的自由。 ——《编程语言》 王爽 著]]></content>
