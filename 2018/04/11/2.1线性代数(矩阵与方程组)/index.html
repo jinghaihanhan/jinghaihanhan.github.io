@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数学,线性代数," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言随着越深入的学习专业知识，越觉得自身在数学方面的基础实在薄弱，故从今天开始从头啃书，本次学习的教材是Steven J.Leon的《Linear Algebra with Applications》。">
+<meta name="keywords" content="数学,线性代数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2.1线性代数（矩阵与方程组）">
+<meta property="og:url" content="http://yoursite.com/2018/04/11/2.1线性代数(矩阵与方程组)/index.html">
+<meta property="og:site_name" content="善己呵物 莫逆于心">
+<meta property="og:description" content="前言随着越深入的学习专业知识，越觉得自身在数学方面的基础实在薄弱，故从今天开始从头啃书，本次学习的教材是Steven J.Leon的《Linear Algebra with Applications》。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-11T08:49:02.518Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2.1线性代数（矩阵与方程组）">
+<meta name="twitter:description" content="前言随着越深入的学习专业知识，越觉得自身在数学方面的基础实在薄弱，故从今天开始从头啃书，本次学习的教材是Steven J.Leon的《Linear Algebra with Applications》。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/11/2.1线性代数(矩阵与方程组)/"/>
+
+
+
+
+
+  <title>2.1线性代数（矩阵与方程组） | 善己呵物 莫逆于心</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">善己呵物 莫逆于心</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">命_是弱者借口————运_乃强者谦词</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/11/2.1线性代数(矩阵与方程组)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="井海">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="善己呵物 莫逆于心">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2.1线性代数（矩阵与方程组）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T16:49:31+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数学/" itemprop="url" rel="index">
+                    <span itemprop="name">数学</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/11/2.1线性代数(矩阵与方程组)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/04/11/2.1线性代数(矩阵与方程组)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>随着越深入的学习专业知识，越觉得自身在数学方面的基础实在薄弱，故从今天开始从头啃书，本次学习的教材是Steven J.Leon的《Linear Algebra with Applications》。<br><a id="more"></a><br>之所以选择这本书的原因是想看一看外国教材对于线性代数有没有独到的知识体系，虽然从调研的结果来看Gilbert Strang的《Introduction to Linear Algebra》的口碑更佳，无奈原版书太贵，网上有一些“热心人”会分享电子版，我会同时参考两本书进行线性代数的学习。  </p>
+<h2 id="1-线性方程组"><a href="#1-线性方程组" class="headerlink" title="1. 线性方程组"></a>1. 线性方程组</h2><h3 id="1-1-相容-不相容-方程组"><a href="#1-1-相容-不相容-方程组" class="headerlink" title="1.1 相容/不相容 方程组"></a>1.1 相容/不相容 方程组</h3><p>如下方程组：<br>\begin{aligned}<br>4+x_2&amp;=2\\<br>4-x_2&amp;=1\\<br>\end{aligned}<br>因为不存在实数能同时满足上述两个方程，故方程组<strong><em>无解</em></strong>。<br>如果线性方程组无解，则称该方程组是<strong><em>不相容的（inconsistent）</em></strong>。<br>如果线性方程组至少存在一个解，则称该方程组是<strong><em>相容的（consistent）</em></strong>。  </p>
+<h3 id="1-2-方程组的解集"><a href="#1-2-方程组的解集" class="headerlink" title="1.2 方程组的解集"></a>1.2 方程组的解集</h3><p>线性方程组的所有解的集合称为方程组的<strong><em>解集（solution set）</em></strong>。<br>如果方程组不相容，则其解集为<strong><em>空集</em></strong>。相容的线性方程组解集必非空。<br>因此，求解线性方程组，就是寻找其解集。  </p>
+<h3 id="1-3-“等价”方程组"><a href="#1-3-“等价”方程组" class="headerlink" title="1.3 “等价”方程组"></a>1.3 “等价”方程组</h3><p>若两个含有相同变量的方程组具有相同的解集则称他们是<strong><em>等价的（equivalet）</em></strong>。<br>共有三种运算可以得到等价的方程组：</p>
+<blockquote>
+<ol>
+<li>交换任意两个方程的顺序；</li>
+<li>任意方程两边同乘一个非零的实数；</li>
+<li>任一方程的倍数加到另一方程上。  </li>
+</ol>
+</blockquote>
+<p>对于给定的方程组，可以使用这些运算得到一个容易求解的等价方程组。  </p>
+<h3 id="1-4-方便求解的方程组形式——严格三角形"><a href="#1-4-方便求解的方程组形式——严格三角形" class="headerlink" title="1.4 方便求解的方程组形式——严格三角形"></a>1.4 方便求解的方程组形式——严格三角形</h3><p>若方程组中，第$k$个方程的前$k-1$个变量的系数均为零，且$x_k(k=1,\cdots,n)$的系数不为零，则称该方程组为<strong><em>严格三角形的（strict triangular form）</em></strong>。<br>如下例：<br>\begin{aligned}<br>3x_1 + 2x_2 + x_3 &amp;= 1\\<br>x_2 - x_3 &amp;= 2\\<br>2x_3 &amp;= 4<br>\end{aligned}<br>即为严格三角形的，因此容易求解——由最后一个方程依次向上迭代即可。称这种求解严格三角形方程组的办法为<strong><em>回代法（back substitution）</em></strong>。  </p>
+<h3 id="1-5-方程组对应的“系数矩阵”"><a href="#1-5-方程组对应的“系数矩阵”" class="headerlink" title="1.5 方程组对应的“系数矩阵”"></a>1.5 方程组对应的“系数矩阵”</h3><p>写下一个方程组：<br>\begin{aligned}<br>x_1+2x_2+x_3&amp;=3\\<br>3x_1-1x_2-3x_3&amp;=-1\\<br>2x_1+3x_2+x_3&amp;=4<br>\end{aligned}<br>将上述方程组与一个以$x_i$的系数为元的$3*3$数字阵列联系起来。  </p>
+<p>\begin{equation}<br>\left[<br>\begin{array}{rrr}<br>1&amp;2&amp;1\\<br>3&amp;-1&amp;-3\\<br>2&amp;3&amp;1<br>\end{array}<br>\right]<br>\end{equation}</p>
+<p>这个阵列称为方程组的<strong><em>系数矩阵（coefficient matrix）</em></strong>。简单的说，矩阵（matrix）就是一个矩形的数字阵列。<br>如果在系数矩阵右侧添加一列方程组的右端项，可得到一个新的矩阵：<br>\begin{equation}<br>\left[<br>\begin{array}{rrr|r}<br>1 &amp; 2 &amp; 1 &amp; 3\\<br>3 &amp; -1 &amp; -3 &amp; -1\\<br>2 &amp; 3 &amp; 1 &amp; 4<br>\end{array}<br>\right]<br>\end{equation}<br>这个矩阵称作方程组的<strong><em>增广矩阵（augmented matrix）</em></strong>。对应于一开始提到的方程组。用于得到等价方程组的三个计算，可对应于下列增广矩阵的行运算。  </p>
+<blockquote>
+<p>初等行运算：  </p>
+<ol>
+<li>交换两行；  </li>
+<li>以非零实数乘以某行；  </li>
+<li>将某行替换为它与其他行的倍数的和。  </li>
+</ol>
+</blockquote>
+<p>对增广矩阵处理的例子如下：<br>\begin{equation}<br>    \left[<br>        \begin{array}{rrr|r}<br>            1 &amp; 2 &amp; 1 &amp; 3 \\<br>            3 &amp; -1 &amp; -3 &amp; -1 \\<br>            2 &amp; 3 &amp; 1 &amp; 4<br>        \end{array}<br>    \right]<br>    =<br>    \left[<br>        \begin{array}{rrr|r}<br>            1 &amp; 2 &amp; 1 &amp; 3 \\<br>            0 &amp; -7 &amp; -6 &amp; -10 \\<br>            0 &amp; -1 &amp; -1 &amp; -2<br>        \end{array}<br>    \right]<br>    =<br>    \left[<br>        \begin{array}{rrr|r}<br>            1 &amp; 2 &amp; 1 &amp; 3 \\<br>            0 &amp; -7 &amp; -6 &amp; -10 \\<br>            0 &amp; 0 &amp; -\frac{1}{7} &amp; -\frac{4}{7}<br>        \end{array}<br>    \right]<br>\end{equation}<br>最后得到的增广矩阵，即是与源方程组等价的严格三角形方程组的增广矩阵。使用回代法容易得到此方程的解。</p>
+<h2 id="2-行阶梯形"><a href="#2-行阶梯形" class="headerlink" title="2. 行阶梯形"></a>2. 行阶梯形</h2><h3 id="2-1-如何得到“行阶梯形”"><a href="#2-1-如何得到“行阶梯形”" class="headerlink" title="2.1 如何得到“行阶梯形”"></a>2.1 如何得到“行阶梯形”</h3><p>上节中介绍了将n×n的线性方程组化简为严格三角形方程组的办法。但是，若在化简过程中的某一步，主元所有可能的选择只能是0,上述介绍的方法将无法继续下去。<br>例：考虑如下增广矩阵表示的方程组：<br>\begin{equation}<br>\left[<br>\begin{array}{rrrrr|r}<br>1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1\\<br>-1 &amp; -1 &amp; 0 &amp; 0 &amp; 1 &amp; -1\\<br>-2 &amp; -2 &amp; 0 &amp; 0 &amp; 3 &amp; 1\\<br>0 &amp; 0 &amp; 1 &amp; 1 &amp; 3 &amp; -1\\<br>1 &amp; 1 &amp; 2 &amp; 2 &amp; 4 &amp; 1\\<br>\end{array}<br>\right]<br>\end{equation}<br>化简为：<br>\begin{equation}<br>\left[<br>\begin{array}{rrrrr|r}<br>1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1\\<br>0 &amp; 0 &amp; 1 &amp; 1 &amp; 2 &amp; 0\\<br>0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 3\\<br>0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -4\\<br>0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -3\\<br>\end{array}<br>\right]<br>\end{equation}<br>最终得到的系数矩阵不是严格的三角形的；它是<strong><em>阶梯形（staircase）</em></strong>的。</p>
+<h3 id="2-2-如何利用“行阶梯形”"><a href="#2-2-如何利用“行阶梯形”" class="headerlink" title="2.2 如何利用“行阶梯形”"></a>2.2 如何利用“行阶梯形”</h3><p>因为上述增广矩阵的后两行的原因，得知其所代表的方程组不相容，稍稍进行修改一下使其相容。<br>\begin{equation}<br>\left[<br>\begin{array}{rrrrr|r}<br>1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1\\<br>0 &amp; 0 &amp; 1 &amp; 1 &amp; 2 &amp; 0\\<br>0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 3\\<br>0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\<br>0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\<br>\end{array}<br>\right]<br>\end{equation}<br>增广矩阵每一行第一个非零元对应的变量称为<strong><em>首变量（lead variables）</em></strong>，化简过程中跳过的列对应的变量称为<strong><em>自由变量（free variables）</em></strong>。<br>因此，在上述增广矩阵对应的方程组中，$x_1,x_3,x_5$为<strong>首变量</strong>，$x_2,x_4$为<strong>自由变量</strong>。<br>将自由变量移到等式右端，我们得到方程组：<br>\begin{equation}<br>\begin{aligned}<br>x_1+x_3+x_5&amp;=1-x_2-x_4 \\<br>x_3+2x_5&amp;=-x_4 \\<br>x_5&amp;=3<br>\end{aligned}<br>\end{equation}<br>对每一对给定的$x_2,x_4$，均存在<strong>唯一解</strong>。</p>
+<h3 id="2-3-“行阶梯形矩阵的定义”"><a href="#2-3-“行阶梯形矩阵的定义”" class="headerlink" title="2.3 “行阶梯形矩阵的定义”"></a>2.3 “行阶梯形矩阵的定义”</h3><p>定义：若一个矩阵满足:  </p>
+<blockquote>
+<ol>
+<li>每一非零行中的第一个非零元为1；  </li>
+<li>第$k$行的元不全为零时，第$k+1$行首变量之前的零的个数多余第$k$行首变量之前零的个数；</li>
+<li>所有元素均为零的行必在不全为零的行之后。  </li>
+</ol>
+</blockquote>
+<p>则称其为<strong><em>行阶梯形矩阵（row echelon form）</em></strong>。<br>判断下列矩阵是否是行阶梯形矩阵：<br>\begin{equation}<br>\left[<br>\begin{array}{rrr}<br>2&amp;4&amp;6\\<br>0&amp;3&amp;5\\<br>0&amp;0&amp;4<br>\end{array}<br>\right]<br>,<br>\left[<br>\begin{array}{rrr}<br>0&amp;0&amp;0\\<br>0&amp;1&amp;0<br>\end{array}<br>\right]<br>,<br>\left[<br>\begin{array}{rr}<br>0&amp;1\\<br>1&amp;0<br>\end{array}<br>\right]<br>\end{equation}</p>
+<h3 id="2-4-高斯消元法"><a href="#2-4-高斯消元法" class="headerlink" title="2.4 高斯消元法"></a>2.4 高斯消元法</h3><p>定义：</p>
+<blockquote>
+<p>利用初等行运算，将线性方程组的增广矩阵化为行阶梯形的过程称为<strong>高斯消元法（Gaussian elimination）</strong>。</p>
+</blockquote>
+<p>如含有如下形式的行：<br>\begin{equation}<br>\left[<br>\begin{array}{rrrr|r}<br>0&amp;0&amp;\cdots&amp;0&amp;1\\<br>\end{array}<br>\right]<br>\end{equation}<br>则该方程组不相容。否则，该方程组将相容。<br>若方程组<strong>相容</strong>且行阶梯形矩阵的非零行构成了<strong>严格三角形方程组</strong>，则该方程组存在<strong>唯一解</strong>。  </p>
+<h3 id="2-5-方程个数-neq-未知量个数"><a href="#2-5-方程个数-neq-未知量个数" class="headerlink" title="2.5 方程个数$\neq$未知量个数"></a>2.5 方程个数$\neq$未知量个数</h3><p>在实际的计算中，假如方程个数与未知量个数相等，且方程组<strong>不相关</strong>（这个概念后面会提到，简而言之就是方程组里面的任一方程并不能由其它方程线性组合得到）。那么方程组存在唯一解或无解。讨论方程个数与未知量个数不同的情况：<br>方程个数$&gt;$未知量个数——超定方程组；<br>方程个数$&lt;$未知量个数——亚定方程组</p>
+<h4 id="2-5-1-超定方程组"><a href="#2-5-1-超定方程组" class="headerlink" title="2.5.1 超定方程组"></a>2.5.1 超定方程组</h4><p>超定方程组通常是（并不总是）不相容的。<br>\begin{equation}<br>\left[<br>\begin{array}{rr|r}<br>1&amp;1&amp;1\\<br>1&amp;-1&amp;3\\<br>-1&amp;2&amp;-2<br>\end{array}<br>\right]<br>\Rightarrow<br>\left[<br>\begin{array}{rr|r}<br>1&amp;1&amp;1\\<br>0&amp;1&amp;-1\\<br>0&amp;0&amp;1<br>\end{array}<br>\right]<br>\end{equation}<br>根据化简后最后一行可知该方程组并不相容。</p>
+<h4 id="2-5-2-亚定方程组"><a href="#2-5-2-亚定方程组" class="headerlink" title="2.5.2 亚定方程组"></a>2.5.2 亚定方程组</h4><p>亚定方程组通常是（并不总是）相容的，如果亚定方程组有解，那么不可能只有唯一解。<br>假设环境：未知量个数为n，方程个数为m，亚定方程组中n$&gt;$m，而系数矩阵的行阶梯形矩阵必有r$&lt;=$m个非零行，因此必有r个首变量及$n-r$个自由变量，若方程组是相容的，我们可给自由变量任意赋值，求得首变量的值。<br>因此，一个相容的亚定方程组将有无穷多组解。  </p>
+<h3 id="2-6-行最简形"><a href="#2-6-行最简形" class="headerlink" title="2.6 行最简形"></a>2.6 行最简形</h3><blockquote>
+<p><strong>定义</strong>：若一个矩阵满足：  </p>
+<ol>
+<li>矩阵是行阶梯形的；  </li>
+<li>每一行的第一个非零元是该列唯一的非零元。<br>则称该矩阵为<strong>行最简形（reduced row echelon form）</strong>。  </li>
+</ol>
+</blockquote>
+<p>采用基本行运算将矩阵化为行最简形的过程称为<strong>“高斯-若尔当消元法”（Gauss-Jordan redction）</strong>。<br>下例采用高斯-若尔当消元法解方程组：<br>\begin{equation}<br>\left[<br>\begin{array}{rrrr|r}<br>-1&amp;1&amp;-1&amp;3&amp;0\\<br>3&amp;1&amp;-1&amp;-1&amp;0\\<br>2&amp;-1&amp;-2&amp;-1&amp;0<br>\end{array}<br>\right]<br>\Rightarrow<br>\left[<br>\begin{array}{rrrr|r}<br>-1&amp;1&amp;-1&amp;3&amp;0\\<br>0&amp;4&amp;-4&amp;8&amp;0\\<br>0&amp;1&amp;-4&amp;5&amp;0<br>\end{array}<br>\right]<br>\\<br>\Rightarrow<br>\left[<br>\begin{array}{rrrr|r}<br>-1&amp;1&amp;-1&amp;3&amp;0\\<br>0&amp;4&amp;-4&amp;8&amp;0\\<br>0&amp;0&amp;-3&amp;3&amp;0<br>\end{array}<br>\right]<br>\Rightarrow<br>\left[<br>\begin{array}{rrrr|r}<br>1&amp;-1&amp;1&amp;-3&amp;0\\<br>0&amp;1&amp;-1&amp;2&amp;0\\<br>0&amp;0&amp;1&amp;-1&amp;0<br>\end{array}<br>\right]<br>\\<br>\Rightarrow<br>\left[<br>\begin{array}{rrrr|r}<br>1&amp;-1&amp;0&amp;-2&amp;0\\<br>0&amp;1&amp;0&amp;1&amp;0\\<br>0&amp;0&amp;1&amp;-1&amp;0<br>\end{array}<br>\right]<br>\Rightarrow<br>\left[<br>\begin{array}{rrrr|r}<br>1&amp;0&amp;0&amp;-1&amp;0\\<br>0&amp;1&amp;0&amp;1&amp;0\\<br>0&amp;0&amp;1&amp;-1&amp;0<br>\end{array}<br>\right]<br>\end{equation}<br>若令$x_4$为任意实数a，则可以推出$x_1=a,x_2=-a,x_3=a$，形如这种的解均为方程组的解。</p>
+<h2 id="3-矩阵算术"><a href="#3-矩阵算术" class="headerlink" title="3. 矩阵算术"></a>3. 矩阵算术</h2><p>本节将引入矩阵和向量的标准记号，并定义矩阵的算术运算（加减乘）。引入两种附加运算：<strong>标量乘法和转置</strong>。<br>我们的目的是：</p>
+<blockquote>
+<ol>
+<li>了解如何表示包含矩阵和向量的线性方程组；  </li>
+<li>推导出线性方程组相容的定理。</li>
+</ol>
+</blockquote>
+<h3 id="3-1-基本定义"><a href="#3-1-基本定义" class="headerlink" title="3.1 基本定义"></a>3.1 基本定义</h3><p><strong>标量</strong><br>矩阵中的元素称为“标量（scalar）”。<br><strong>矩阵记号</strong><br>使用$a_{ij}$表示矩阵A的第i行第j列的元素，并用$(i,j)$表示它。<br>有时还将矩阵简记为$A=(a_{ij})$。<br><strong>向量</strong><br>由于仅有一行或一列的矩阵可以用来表示线性方程组的解，因此特别值得注意。具有m个线性方程n个变量的线性方程组的解是一个实的n元组。我们以后称由实数组成的n元组为<strong>向量（vector）</strong>。<br>如果n元组表示为一个1×n的矩阵，则称为<strong>行向量（row vector）</strong>。<br>如果n元组表示为一个n×1的矩阵，则称为<strong>列向量（column vector）</strong>。<br>所有n×1的实矩阵构成的集合称为<strong>n维欧几里得空间（Euclidean n-space）</strong>。<br><strong>相等</strong><br>若两个矩阵相等，则：  </p>
+<ol>
+<li>它们维数相等；  </li>
+<li>它们对应的元素必相等。<br><em>定义</em>：  <blockquote>
+<p>若两个m*n矩阵A和B对任一$i$和$j$均满足$a_{ij}=b_{ij}$，则称他们是<strong>相等（equal）</strong>。  </p>
+</blockquote>
+</li>
+</ol>
+<p><strong>标量乘法</strong><br>设A为一矩阵，$\alpha$为一标量，则$\alpha$A为将A中的任一元素乘以$\alpha$而构成的一个矩阵。<br><strong>矩阵加法</strong><br>两个相同维数矩阵的加法可通过对应元素相加得到。<br><em>定义</em>：  </p>
+<blockquote>
+<p>设$A=(a_{ij})$和$B=(b_{ij})$都是m<em>n矩阵，则他们的<strong>和（sum）</strong>A+B也是一个m</em>n矩阵，对每一个有序对（i，j），它的（i，j）元素为$a_{ij}+b_{ij}$。  </p>
+</blockquote>
+<p><strong>矩阵乘法及线性方程组</strong>  </p>
+<ol>
+<li>一个方程有多个未知量<br>例如考虑方程：<br>\begin{equation}<br>3x_1+2x_2+5x_3=4\\<br>\end{equation}<br>若另：<br>\begin{equation}<br>A =<br>\left[<br>\begin{array}{rrr}<br>3&amp;2&amp;5<br>\end{array}<br>\right]<br>及<br>x =<br>\left[<br>\begin{array}{r}<br>x_1\\<br>x_2\\<br>x_3<br>\end{array}<br>\right]<br>\end{equation}<br>并定义乘以Ax为：<br>\begin{equation}<br>Ax=<br>\left[<br>\begin{array}{rrr}<br>3&amp;2&amp;5<br>\end{array}<br>\right]<br>\left[<br>\begin{array}{r}<br>x_1\\<br>x_2\\<br>x_3<br>\end{array}<br>\right]<br>=3x_1+2x_2+5x_3<br>\end{equation}<br>注意，左侧的行向量与右侧的列向量乘积的结果为一个标量。因此这种乘法通常称为<em>标量积（scalar product）</em>。  </li>
+<li>m个方程n个未知量<br>\begin{equation}<br>\left{<br>\begin{aligned}[c]<br>a_{11}x_1+a_{12}x_2+a_{13}x_3&amp;=b_1\\<br>a_{21}x_1+a_{22}x_2+a_{23}x_3&amp;=b_2\\<br>a_{31}x_1+a_{32}x_2+a_{33}x_3&amp;=b_3<br>\end{aligned}<br>\right.\\<br>\Downarrow\\<br>\left[<br>\begin{array}{rrr}<br>a_{11}&amp;a_{12}&amp;a_{13}\\<br>a_{21}&amp;a_{22}&amp;a_{23}\\<br>a_{31}&amp;a_{32}&amp;a_{33}<br>\end{array}<br>\right]<br>\left[<br>\begin{array}{r}<br>x_1\\<br>x_2\\<br>x_3<br>\end{array}<br>\right]<br>=<br>\left[<br>\begin{array}{r}<br>b_1\\<br>b_2\\<br>b_3<br>\end{array}<br>\right]\\<br>\Downarrow\\<br>x_1<br>\left[<br>\begin{array}{r}<br>a_{11}\\<br>a_{21}\\<br>a_{31}<br>\end{array}<br>\right]<br>+<br>x_2<br>\left[<br>\begin{array}{r}<br>a_{12}\\<br>a_{22}\\<br>a_{32}<br>\end{array}<br>\right]<br>+<br>x_3<br>\left[<br>\begin{array}{r}<br>a_{13}\\<br>a_{23}\\<br>a_{33}<br>\end{array}<br>\right]<br>=<br>\left[<br>\begin{array}{r}<br>b_1\\<br>b_2\\<br>b_3<br>\end{array}<br>\right]<br>\end{equation}</li>
+<li>线性组合<blockquote>
+<p>若$a_1,a_2,\cdots,a_n$为$R^m$中的向量，且$c_1,c_2,\cdots,c_n$为标量，则和式：<br>$c_1a_1+c_2a_2+\cdots+c_na_n$<br>称为向量$a_1,a_2,\cdots,a_n$的一个<em>线性组合（linear combination）</em>。  </p>
+</blockquote>
+</li>
+</ol>
+<p><strong>符号规则</strong><br>正如通常的代数，如果表达式中既包含乘法也包含加法，且没有使用括号指明运算的顺序，那么乘法先于加法运算。这同样适用于标量乘法和矩阵乘法。<br><strong>矩阵的转置</strong><br><em>定义</em>：  </p>
+<blockquote>
+<p>一个m×n矩阵A的<strong>转置（transpose）</strong>为n×m矩阵B，定义为$b_{ji}=a_{ij}$，其中$j=1,\cdots,n$和$i=1,\cdots,m$。<br>A的转置为<strong>$A^{T}$</strong>。</p>
+</blockquote>
+<p><em>定义</em>：  </p>
+<blockquote>
+<p>一个n×n的矩阵A，若满足$A^T=A$，则称为<strong>对称的（symmetric）</strong>。</p>
+</blockquote>
+<h2 id="4-矩阵代数"><a href="#4-矩阵代数" class="headerlink" title="4 矩阵代数"></a>4 矩阵代数</h2><p>实数的代数法则可能适用也可能不适用矩阵。本节给出一些矩阵代数中有用的法则。    </p>
+<h3 id="4-1-代数法则"><a href="#4-1-代数法则" class="headerlink" title="4.1 代数法则"></a>4.1 代数法则</h3><p>在下面的定理中给出了一些矩阵代数中有用的法则。  </p>
+<blockquote>
+<p><strong>定理</strong><br>在定义了需要的运算后，下述法则对任何标量$\alpha$和$\beta$及矩阵A，B和C都是成立的。<br>\begin{equation}<br>\begin{aligned}[l]<br>A+B&amp;=B+A\\<br>(A+B)+C&amp;=A+(B+C)\\<br>(AB)C&amp;=A(BC)\\<br>A(B+C)&amp;=AB+AC\\<br>(A+B)C&amp;=AC+BC\\<br>(\alpha \beta)A&amp;=\alpha A+\beta A\\<br>\alpha(AB)&amp;=(\alpha A)B\\<br>&amp;=A(\alpha B)\\<br>(\alpha + \beta)A&amp;=\alpha A+\beta A\\<br>\alpha(A+B)&amp;=\alpha A+\alpha B<br>\end{aligned}<br>\end{equation}<br>(在上述等式中，形如A、B表示为矩阵，形如为$\alpha,\beta$表示为实数，或者称为标量)</p>
+</blockquote>
+<h3 id="4-2-单位矩阵"><a href="#4-2-单位矩阵" class="headerlink" title="4.2 单位矩阵"></a>4.2 单位矩阵</h3><blockquote>
+<p>定义：<br>n×n的<strong>单位矩阵（identity martrix）</strong>为矩阵I=（$\delta$_{ij}），其中<br>\begin{equation}<br>\delta _{ij} =<br>\left{<br>\begin{aligned}[l]<br>1(i=j)\\<br>0(i \neq j)<br>\end{aligned}<br>\right.<br>\end{equation}</p>
+</blockquote>
+<h3 id="4-3-矩阵的逆"><a href="#4-3-矩阵的逆" class="headerlink" title="4.3 矩阵的逆"></a>4.3 矩阵的逆</h3><h3 id="4-4-转置的代数法则"><a href="#4-4-转置的代数法则" class="headerlink" title="4.4 转置的代数法则"></a>4.4 转置的代数法则</h3><h3 id="4-5-对称矩阵和网络"><a href="#4-5-对称矩阵和网络" class="headerlink" title="4.5 对称矩阵和网络"></a>4.5 对称矩阵和网络</h3><h2 id="5-初等矩阵"><a href="#5-初等矩阵" class="headerlink" title="5 初等矩阵"></a>5 初等矩阵</h2><h3 id="5-1-等价方程组"><a href="#5-1-等价方程组" class="headerlink" title="5.1 等价方程组"></a>5.1 等价方程组</h3><h3 id="5-2-初等矩阵"><a href="#5-2-初等矩阵" class="headerlink" title="5.2 初等矩阵"></a>5.2 初等矩阵</h3><p>如果从单位矩阵$I$开始，只进行一次初等行运算，得到的矩阵称为<em>初等（elementary）</em>矩阵。分别对应于三类初等行运算，有三类初等矩阵。  </p>
+<blockquote>
+<ol>
+<li>第一类初等矩阵由交换矩阵I的两行得到；</li>
+<li>第二类初等矩阵由单位矩阵I的某一行乘以一个非零常数得到；</li>
+<li>第三类初等矩阵由矩阵I的某一行的倍数加到另一行得到。</li>
+</ol>
+</blockquote>
+<blockquote>
+<p><strong>定理1.5.1</strong>：<br>若E为一初等矩阵，则E是非奇异的，且$E^{-1}$为一与它同类型的初等矩阵。 </p>
+</blockquote>
+<blockquote>
+<p><strong>定义</strong>：<br>若存在一个有限初等矩阵的序列$E_1,E_2,\cdots,E_k$ 使得<br>\begin{equation}<br>\begin{aligned}[l]<br>B=E_kE_{k-1}\cdots E_1A<br>\end{aligned}<br>\end{equation}<br>则称A与B是等价的。  </p>
+</blockquote>
+<p>容易得到以下行等价矩阵的性质：  </p>
+<ol>
+<li>若A与B是行等价的，则B与A是行等价的；  </li>
+<li>若A与B是行等价的，且B与C是行等价的，则A与C是行等价的。  <blockquote>
+<p><strong>定理1.5.2</strong>：<br>令A为一n×n矩阵，则下列命题是等价的：  </p>
+</blockquote>
+</li>
+<li>A是非奇异的；  </li>
+<li>A<strong>x</strong>=<strong>0</strong>仅有平凡解<strong>0</strong>；  </li>
+<li>A与I行等价。</li>
+</ol>
+<blockquote>
+<p>推论1.5.3：<br>当且仅当A非奇异时，n个未知量n个方程的线性方程组Ax=b有唯一解。  </p>
+</blockquote>
+<h3 id="5-3-对角矩阵和三角形矩阵"><a href="#5-3-对角矩阵和三角形矩阵" class="headerlink" title="5.3 对角矩阵和三角形矩阵"></a>5.3 对角矩阵和三角形矩阵</h3><ol>
+<li>上三角矩阵<br>严格三角形对应的系数矩阵必为对角元素非零的上三角矩阵。</li>
+<li>下三角矩阵  </li>
+<li>对角矩阵<br>对角矩阵即是上三角矩阵，也是下三角矩阵。  <h3 id="5-4-三角形分解"><a href="#5-4-三角形分解" class="headerlink" title="5.4 三角形分解"></a>5.4 三角形分解</h3>观察矩阵B：<br>\begin{equation}<br>\begin{aligned}[l]<br>B=E_kE_{k-1}\cdots E_1A<br>\end{aligned}<br>\end{equation}<br>可以分解成<br>\begin{equation}<br>\begin{aligned}[l]<br>E_kE_{k-1}\cdots E_1<br>\end{aligned}<br>和<br>A<br>\end{equation}<br>两部分。<br>左边可以整合成一个矩阵，形为下三角矩阵；右边是用行阶梯形化的矩阵，是上三角矩阵。<br>结论是一个n×n矩阵可以分解成一个下三角矩阵和上三角矩阵的乘积，称为LU分解。<h2 id="6-分块矩阵"><a href="#6-分块矩阵" class="headerlink" title="6 分块矩阵"></a>6 分块矩阵</h2>通常，将矩阵看成由若干子矩阵复合而成很有用。一个矩阵C可通过在其行中画一条横线，并在其列中画一条竖线划分成较小的矩阵。这种较小的矩阵通常称为<strong>块（block）</strong>。  <h3 id="6-1-分块乘法"><a href="#6-1-分块乘法" class="headerlink" title="6.1 分块乘法"></a>6.1 分块乘法</h3>假如A是一个m×n矩阵，B是一个n×r矩阵。经常将A和B分块，并将它们的乘积表示为她恩的子矩阵乘积的形式。考虑如下四种情形：  </li>
+<li>\begin{equation}<br>A<br>\left[<br>\begin{aligned}[rrr]<br>B_1&amp;&amp;B_2<br>\end{aligned}<br>\right]<br>=<br>\left[<br>\begin{aligned}[rrr]<br>AB_1&amp;&amp;AB_2<br>\end{aligned}<br>\right]<br>\end{equation}</li>
+<li>\begin{equation}<br>\left[<br>\begin{aligned}[r]<br>A_1\\<br>A_2<br>\end{aligned}<br>\right]<br>B=<br>\left[<br>\begin{aligned}[r]<br>A_1B\\<br>A_2B<br>\end{aligned}<br>\right]<br>\end{equation}</li>
+<li>\begin{equation}<br>\left[<br>\begin{aligned}[rrr]<br>A_1&amp;&amp;A_2<br>\end{aligned}<br>\right]<br>\left[<br>\begin{aligned}[r]<br>B_1\\<br>B_2<br>\end{aligned}<br>\right]<br>=<br>A_1B_1+A_2B_2<br>\end{equation}</li>
+<li>\begin{equation}<br>A=<br>\left[<br>\begin{array}{ccc}<br>A_{11}&amp;\cdots&amp;A_{1t}\\<br>\vdots&amp;&amp;\\<br>A_{s1}&amp;\cdots&amp;A_{st}<br>\end{array}<br>\right]\\<br>B=<br>\left[<br>\begin{array}{ccc}<br>B_{11}&amp;\cdots&amp;A_{1r}\\<br>\vdots&amp;&amp;\\<br>A_{t1}&amp;\cdots&amp;A_{tr}<br>\end{array}<br>\right]\\<br>AB=<br>\left[<br>\begin{array}{ccc}<br>C_{11}&amp;\cdots&amp;C_{1r}\\<br>\vdots&amp;&amp;\\<br>C_{s1}&amp;\cdots&amp;C_{sr}<br>\end{array}<br>\right]<br>\end{equation}<h3 id="6-2-外积展开"><a href="#6-2-外积展开" class="headerlink" title="6.2 外积展开"></a>6.2 外积展开</h3>给定$R^n$中的两个向量x和y，若首先将其中一个向量转置，则这两个向量即可进行矩阵乘法。<br>这里面会存在两种情况：<br>一是一个行向量与一个列向量相乘，得到一个标量；这种乘积称为<strong>标量积（scalar product）</strong>或者<strong>内积（inner product）</strong>；<br>二是一个列向量和行向量相乘，得到一个矩阵，称为<strong>外积（outer product）</strong>。外积展开在很多应用中起着重要的作用。  </li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数学/" rel="tag"># 数学</a>
+          
+            <a href="/tags/线性代数/" rel="tag"># 线性代数</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/04/祝小公举生日快乐/" rel="next" title="祝小公举生日快乐">
+                <i class="fa fa-chevron-left"></i> 祝小公举生日快乐
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="井海" />
+            
+              <p class="site-author-name" itemprop="name">井海</p>
+              <p class="site-description motion-element" itemprop="description">慎终如始</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-线性方程组"><span class="nav-text">1. 线性方程组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-相容-不相容-方程组"><span class="nav-text">1.1 相容/不相容 方程组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-方程组的解集"><span class="nav-text">1.2 方程组的解集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-“等价”方程组"><span class="nav-text">1.3 “等价”方程组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-方便求解的方程组形式——严格三角形"><span class="nav-text">1.4 方便求解的方程组形式——严格三角形</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-方程组对应的“系数矩阵”"><span class="nav-text">1.5 方程组对应的“系数矩阵”</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-行阶梯形"><span class="nav-text">2. 行阶梯形</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-如何得到“行阶梯形”"><span class="nav-text">2.1 如何得到“行阶梯形”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-如何利用“行阶梯形”"><span class="nav-text">2.2 如何利用“行阶梯形”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-“行阶梯形矩阵的定义”"><span class="nav-text">2.3 “行阶梯形矩阵的定义”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-高斯消元法"><span class="nav-text">2.4 高斯消元法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-方程个数-neq-未知量个数"><span class="nav-text">2.5 方程个数$\neq$未知量个数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-1-超定方程组"><span class="nav-text">2.5.1 超定方程组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-2-亚定方程组"><span class="nav-text">2.5.2 亚定方程组</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-行最简形"><span class="nav-text">2.6 行最简形</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-矩阵算术"><span class="nav-text">3. 矩阵算术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-基本定义"><span class="nav-text">3.1 基本定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-矩阵代数"><span class="nav-text">4 矩阵代数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-代数法则"><span class="nav-text">4.1 代数法则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-单位矩阵"><span class="nav-text">4.2 单位矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-矩阵的逆"><span class="nav-text">4.3 矩阵的逆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-转置的代数法则"><span class="nav-text">4.4 转置的代数法则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-对称矩阵和网络"><span class="nav-text">4.5 对称矩阵和网络</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-初等矩阵"><span class="nav-text">5 初等矩阵</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-等价方程组"><span class="nav-text">5.1 等价方程组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-初等矩阵"><span class="nav-text">5.2 初等矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-对角矩阵和三角形矩阵"><span class="nav-text">5.3 对角矩阵和三角形矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-三角形分解"><span class="nav-text">5.4 三角形分解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-分块矩阵"><span class="nav-text">6 分块矩阵</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-分块乘法"><span class="nav-text">6.1 分块乘法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-外积展开"><span class="nav-text">6.2 外积展开</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">井海</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/04/11/2.1线性代数(矩阵与方程组)/';
+          this.page.identifier = '2018/04/11/2.1线性代数(矩阵与方程组)/';
+          this.page.title = '2.1线性代数（矩阵与方程组）';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
