@@ -71,9 +71,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[1.2_汇编(loop)]]></title>
-    <url>%2F2018%2F03%2F22%2F1.2_%E6%B1%87%E7%BC%96(loop)%2F</url>
-    <content type="text"><![CDATA[loop定义CPU执行loop指令的时候，要进行两步操作: 1 (cx) = (cx) - 12 判断cx中的值，不为零则转至标号处执行程序，如果为零则向下执行 其中，cx为CX寄存器。 编程案例编程计算2^12的值 assume cs:codecode segmentmov ax,2 mov cx,11s: add ax,axloop s mov ax,4c00hint 21hcode endsend 分析上述程序：在汇编语言中，标号代表一个地址，s即是此程序中的标号,在loop ： s语句中执行以下步骤： 1 (cx) = (cx) - 12 判断cx中的值，不为0则转至标号s所标识的地址处执行（这里的指令是add ax,ax），如果为零则执行下一条指令（下一条指令是mov ax,4c00h)。 此处add ax,ax指令共执行了11次。这里要注意的是,loop s 下面的语句是用来返回8086系统的cmd进程中的，与此处的知识点无关，如果有兴趣可以找时间研究。 2. 实验 编程，向内存0：200～0：23F依次传送数据0～63（3FH）。 实现上述功能，且不能超过9条指令，且指令中应该包括mov ax,4c00h 和 int 21h。 ——《编程语言》 王爽著]]></content>
+    <title><![CDATA[1.3_汇编(多段程序及内存定位)]]></title>
+    <url>%2F2018%2F03%2F22%2F1.3_%E6%B1%87%E7%BC%96(%E5%A4%9A%E6%AE%B5%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%86%85%E5%AD%98%E5%AE%9A%E4%BD%8D)%20%2F</url>
+    <content type="text"><![CDATA[多段程序我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？ 在一个段中存放数据、代码、栈； 将数据、代码、栈放入不同的段中。 在代码段中使用程序先看下列程序：123456789101112131415assume cs:codecode segment dw 0123h,0456h,0789h,0abch,0defh,ofedh,0cbah,0987h start: mov bx,0 mov bx,0 mov cx,0 s: add ax,cs:[bx] add bx,2 loop s mov ax,4c00h int 21hcode endsend start 需要说明的几个问题： 1 dw的含义是define word，在这里，使用dw定义了8个字型数据；2 end 后面的 start表明了程序的入口。end除了通知编译器程序在这里结束外，还可以通知编译器程序的入口在什么地方；3 通过这种方法生成的数据，这8个数据存在于代码段的最开始，所以偏移地址为0,然后依次递增，8个字型数据存在于代码段的偏移0，2，4，6，8，A，C，E处。 在代码段中使用栈程序的大概思路为先”dw”8个字型空间留给要用的数据，然后”dw”8个字型空的空间留做栈空间用。假如我们设计将cs:10～cs:2F用做栈空间，那么需要在初始化设置时将cs段地址赋予ss中（中间经过ax寄存器做桥梁），然后将sp指向30h。 将数据、代码、栈放入不同的段将数据、代码、栈都放在一起存在两个缺点： 把它们放到一个段中使程序显得混乱； 如果需要的空间超过64kb，既不能放在一个段中（8086模式中一个段的容量不能超过64kb）。 程序大概格式如下：12345678910111213141516171819assume cs:code,ds:data,ss:stackdata segment...data endsstack segment...stack endscode segmentstart: mov ax,stack mov ss,ax mov sp,20h ;指向栈顶 mov ax,data mov ds,ax ;指向data段...code endsend start 这个代码一共定义了三段空间，通过名称“data”等来传递段地址，即在进行空间的定义的时候，在物理上就将三个空间分开，然后调用其相应的段地址即可。此处再进行强调依次，在对段地址寄存器进行操作的时候，不能直接对其赋值，而应通过ax等寄存器作为桥梁。 更灵活的内存定位基础知识点： and和or指令的用法； 通过db ‘（字母）’的形式将对应的ASCII码值提取出来，db的意思是define byte； 字母的大小写转换问题，仔细研究一下ASCII表中大小写字母的区别，差值固定； [bx + idata] 的意思是 [（bx）+ idata]（意义：为高级语言实现数组提供了便利机制）； 提供了SI，DI两个16位寄存器，但是这两个寄存器并不能拆分成两个8位寄存器，功能和BX相近； 结论： [idata]用一个常量来表示地址，可用于直接定位一个内存单元； [bx]用一个变量来表示内存地址，可用于间接定位一个内存单元； [bx+idata]用一个变量和常量表示地址，可在一个其实地址的基础上用变量简洁的定位一个内存单元； [bx+si]用两个变量表示地址； [bx+si+idata]用两个变量和一个常量表示地址。 ——《编程语言》 王爽 著]]></content>
       <categories>
         <category>汇编学习</category>
       </categories>
@@ -85,17 +85,6 @@
     <title><![CDATA[1.5_汇编(转移指令的原理)]]></title>
     <url>%2F2018%2F03%2F22%2F1.5_%E6%B1%87%E7%BC%96(%E8%BD%AC%E7%A7%BB%E6%8C%87%E4%BB%A4%E7%9A%84%E5%8E%9F%E7%90%86)%2F</url>
     <content type="text"><![CDATA[前言可以修改IP，或同时修改CS和IP的指令统称为转移指令。概括的说，转移指令就是可以控制CPU执行内存中某处代码的指令。8086CPU的转移指令分为以下几类： 段间转移和段内转移段内转移分两种：短转移和近转移` 常用的转移指令操作符offset操作符offset在汇编语言中是由编译器处理的符号，它的功能是取得标号的偏移地址。给出下列程序段，填写两条指令，使该程序在运行中将s处的一条指令复制到s0处。1234567891011assume cs:codesg codesg segment s: mov ax,bx mov si,offset s mov di,offset s0 __________ __________ s0: nop nop codesg ends end s 提出以下几个问题： s和s0处的指令所在的内存单元的地址是多少？ 将s处的指令复制到s0处，如何进行操作？ 段地址已知在cs中，偏移地址offset s和offset s0已经送入si和di中。 要复制的数据有多长？ 思考所得： 通过“offset 标号”可以得到标号的地址； 在8086CPU中，得到的标号地址是八位数据。 jmp指令 根据位移进行转移的jmp指令jmp short 标号（转到标号处执行指令）这种情况下执行的jmp指令在机器指令里的跳转数据并不是目标程序（或标号）的地址，而是相对偏移地址，比如jmp的前一句指令的地址为a，跳转的目标指令的地址为b，在机器指令里，只出现b-a的值，并不直接指明地址b。这说明，CPU在执行jmp指令的时候并不需要转移的目的地址。 转移的目的地址在指令中的jmp指令jmp far ptr 标号上述指令实现的是段间转移，又称为远转移。可以同时修改CS和IP。 转移地址在寄存器中的jmp指令指令格式：jmp 16位reg这种修改方式只能修改IP，并不能修改CS 转移地址在内存中的jmp指令a、jmp word ptr 内存单元地址（段内转移）在内存单元地址处开始存放着一个字b、jmp dword ptr 内存单元地址（段间转移）在内存单元地址处开始存放着两个字 我是否可以这么理解？当我提供给jmp16位数据时，只进行IP的修改，即进行段内转移，当你提供给它32位数据时，它填满了IP，即会填充CS，实现段间转移。 jcxz条件转移指令jcxz 标号（如果（cx）==0,转移到标号处执行） loop指令loop指令为循环指令，所有的循环指令都是“短转移”，在对应的机器码中包含转移的位移，而不是目的地址。对IP的修改范围为：-128～127。 转移指令背后的思考根据位移进行转移的意义采用这种位移的设计，方便了程序段在内存中的浮动装配。如下程序所示：1234 mov cx,6 B9 06 00 mo ax,10h B8 10 00 s: add ax,ax 01 C0 loop s E2 FC ;前移了4个字节 这样的程序装在内存的不同位置都可正确执行。 编译器对转移位移超界的检测看如下代码：123start: jmp short s db 128 dup(0)s: mov ax,offffh 假设程序的入口在start处，那么在进行编译的时候，jmp指令标号s中间存在128字节的距离，而jmp short s的转移范围是-128～127,只能向后跳转127个字节，所以会编译报错。 后记通过对CPU工作原理的深入学习，实现在底层上真正的自由。 ——《编程语言》 王爽 著]]></content>
-      <categories>
-        <category>汇编学习</category>
-      </categories>
-      <tags>
-        <tag>汇编</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[1.3_汇编(多段程序及内存定位)]]></title>
-    <url>%2F2018%2F03%2F22%2F1.3_%E6%B1%87%E7%BC%96(%E5%A4%9A%E6%AE%B5%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%86%85%E5%AD%98%E5%AE%9A%E4%BD%8D)%20%2F</url>
-    <content type="text"><![CDATA[多段程序我们现在知道内存可以数据段，代码段，栈空间；那么当我们在一个程序中同时包含数据和代码时，从内存角度来看，我们应该怎么解决这个问题呢？ 在一个段中存放数据、代码、栈； 将数据、代码、栈放入不同的段中。 在代码段中使用程序先看下列程序：123456789101112131415assume cs:codecode segment dw 0123h,0456h,0789h,0abch,0defh,ofedh,0cbah,0987h start: mov bx,0 mov bx,0 mov cx,0 s: add ax,cs:[bx] add bx,2 loop s mov ax,4c00h int 21hcode endsend start 需要说明的几个问题： 1 dw的含义是define word，在这里，使用dw定义了8个字型数据；2 end 后面的 start表明了程序的入口。end除了通知编译器程序在这里结束外，还可以通知编译器程序的入口在什么地方；3 通过这种方法生成的数据，这8个数据存在于代码段的最开始，所以偏移地址为0,然后依次递增，8个字型数据存在于代码段的偏移0，2，4，6，8，A，C，E处。 在代码段中使用栈程序的大概思路为先”dw”8个字型空间留给要用的数据，然后”dw”8个字型空的空间留做栈空间用。假如我们设计将cs:10～cs:2F用做栈空间，那么需要在初始化设置时将cs段地址赋予ss中（中间经过ax寄存器做桥梁），然后将sp指向30h。 将数据、代码、栈放入不同的段将数据、代码、栈都放在一起存在两个缺点： 把它们放到一个段中使程序显得混乱； 如果需要的空间超过64kb，既不能放在一个段中（8086模式中一个段的容量不能超过64kb）。 程序大概格式如下：12345678910111213141516171819assume cs:code,ds:data,ss:stackdata segment...data endsstack segment...stack endscode segmentstart: mov ax,stack mov ss,ax mov sp,20h ;指向栈顶 mov ax,data mov ds,ax ;指向data段...code endsend start 这个代码一共定义了三段空间，通过名称“data”等来传递段地址，即在进行空间的定义的时候，在物理上就将三个空间分开，然后调用其相应的段地址即可。此处再进行强调依次，在对段地址寄存器进行操作的时候，不能直接对其赋值，而应通过ax等寄存器作为桥梁。 更灵活的内存定位基础知识点： and和or指令的用法； 通过db ‘（字母）’的形式将对应的ASCII码值提取出来，db的意思是define byte； 字母的大小写转换问题，仔细研究一下ASCII表中大小写字母的区别，差值固定； [bx + idata] 的意思是 [（bx）+ idata]（意义：为高级语言实现数组提供了便利机制）； 提供了SI，DI两个16位寄存器，但是这两个寄存器并不能拆分成两个8位寄存器，功能和BX相近； 结论： [idata]用一个常量来表示地址，可用于直接定位一个内存单元； [bx]用一个变量来表示内存地址，可用于间接定位一个内存单元； [bx+idata]用一个变量和常量表示地址，可在一个其实地址的基础上用变量简洁的定位一个内存单元； [bx+si]用两个变量表示地址； [bx+si+idata]用两个变量和一个常量表示地址。 ——《编程语言》 王爽 著]]></content>
       <categories>
         <category>汇编学习</category>
       </categories>
@@ -118,6 +107,17 @@
     <title><![CDATA[1.6_汇编(CALL和RET指令)]]></title>
     <url>%2F2018%2F03%2F22%2F1.6_%E6%B1%87%E7%BC%96(CALL%E5%92%8CRET%E6%8C%87%E4%BB%A4)%2F</url>
     <content type="text"><![CDATA[前言call和ret指令都是转移指令，他们都修改IP，或同时修改CS和IP。他们经常被共同用来实现子程序的设计。下面将介绍call和ret指令的原理。 常用的转移指令#### 操作符offset 转移指令背后的思考 后记通过对CPU工作原理的深入学习，实现在底层上真正的自由。 ——《编程语言》 王爽 著]]></content>
+      <categories>
+        <category>汇编学习</category>
+      </categories>
+      <tags>
+        <tag>汇编</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[1.2_汇编(loop)]]></title>
+    <url>%2F2018%2F03%2F22%2F1.2_%E6%B1%87%E7%BC%96(loop)%2F</url>
+    <content type="text"><![CDATA[loop定义CPU执行loop指令的时候，要进行两步操作: 1 (cx) = (cx) - 12 判断cx中的值，不为零则转至标号处执行程序，如果为零则向下执行 其中，cx为CX寄存器。 编程案例编程计算2^12的值 assume cs:codecode segmentmov ax,2 mov cx,11s: add ax,axloop s mov ax,4c00hint 21hcode endsend 分析上述程序：在汇编语言中，标号代表一个地址，s即是此程序中的标号,在loop ： s语句中执行以下步骤： 1 (cx) = (cx) - 12 判断cx中的值，不为0则转至标号s所标识的地址处执行（这里的指令是add ax,ax），如果为零则执行下一条指令（下一条指令是mov ax,4c00h)。 此处add ax,ax指令共执行了11次。这里要注意的是,loop s 下面的语句是用来返回8086系统的cmd进程中的，与此处的知识点无关，如果有兴趣可以找时间研究。 2. 实验 编程，向内存0：200～0：23F依次传送数据0～63（3FH）。 实现上述功能，且不能超过9条指令，且指令中应该包括mov ax,4c00h 和 int 21h。 ——《编程语言》 王爽著]]></content>
       <categories>
         <category>汇编学习</category>
       </categories>

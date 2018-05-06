@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/22/1.6_汇编(CALL和RET指令)/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/22/1.2_汇编(loop)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="井海">
@@ -281,7 +281,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/22/1.6_汇编(CALL和RET指令)/" itemprop="url">1.6_汇编(CALL和RET指令)</a></h1>
+                <a class="post-title-link" href="/2018/03/22/1.2_汇编(loop)/" itemprop="url">1.2_汇编(loop)</a></h1>
         
 
         <div class="post-meta">
@@ -334,9 +334,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/03/22/1.6_汇编(CALL和RET指令)/#comments" itemprop="discussionUrl">
+                <a href="/2018/03/22/1.2_汇编(loop)/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/03/22/1.6_汇编(CALL和RET指令)/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/03/22/1.2_汇编(loop)/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -365,10 +365,14 @@
 
       
         
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>call和ret指令都是转移指令，他们都修改IP，或同时修改CS和IP。他们经常被共同用来实现子程序的设计。<br>下面将介绍call和ret指令的原理。<br>
+          <h2 id="loop"><a href="#loop" class="headerlink" title="loop"></a>loop</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>CPU执行loop指令的时候，要进行两步操作:</p>
+<blockquote>
+<p>1 (cx) = (cx) - 1<br>2 判断cx中的值，不为零则转至标号处执行程序，如果为零则向下执行</p>
+</blockquote>
+<p>其中，cx为CX寄存器。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/22/1.6_汇编(CALL和RET指令)/#more" rel="contents">
+            <a class="btn" href="/2018/03/22/1.2_汇编(loop)/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
